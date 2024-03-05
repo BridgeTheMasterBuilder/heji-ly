@@ -1,3 +1,5 @@
+\version "2.24.1"
+
 heji-font = #(if (nil? (ly:parser-lookup 'heji-font)) "HEJI2" heji-font)
 
 hash = #(define-scheme-function (factor exponent)
