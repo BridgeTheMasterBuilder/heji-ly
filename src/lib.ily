@@ -16,7 +16,7 @@ valid-prime-exponent = #(define-scheme-function (factor exponent)
                              (else #t))))
 
 % Precondition: Factors is a possibly empty sorted list of pairs (x . y)
-% Postcondition: The returned list is a sorted list of pairs (x . y) satisfying the following conditions:
+% Postconditions: The returned list is a sorted list of pairs (x . y) satisfying the following conditions:
 %	- Each pair has a unique left hand element (key)
 %	- Adjacent pairs (x . y) and (x . z) in the input list are combined into (x . (+ y z))
 %	- Adjacent pairs (3 . y) and (5 . z) in the input list are combined into
@@ -50,8 +50,7 @@ normalize-factors = #(define-scheme-function (factors)
                                        (else (cons this-factor (normalize-factors rest))))))
                               (else (list this-factor))))))
 
-% Precondition: Factors is a possibly empty list of pairs (x . y) where x is a prime number and y is valid according to the
-%		predicate valid-prime-exponent
+% Precondition: Factors is a possibly empty list of pairs (x . y)
 % Postcondition: The returned list is a list of code points corresponding to the accidentals described by the input list
 %		 in _descending_ order
 parse-heji = #(define-scheme-function (factors)
