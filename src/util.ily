@@ -18,3 +18,7 @@ prime-p = #(define-scheme-function (n)
 ignore = #(define-scheme-function (msg x)
             (string? scheme?)
             (begin (ly:warning msg) x))
+
+log-b = #(define-scheme-function (b x)
+           (number? number?)
+           (/ (log10 x) (log10 b)))
