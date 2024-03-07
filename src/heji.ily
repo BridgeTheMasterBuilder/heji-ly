@@ -4,9 +4,15 @@
 \include "accidentals.ily"
 \include "lib.ily"
 \include "parser.ily"
+\include "midi.ily"
 
 heji-font = #(set-if-unset 'heji-font "HEJI2")
-warn-on-empty-factor-list = #(set-if-unset 'warn-on-empty-factor-list #t)
+warn-on-empty-factors = #(set-if-unset 'warn-on-empty-factors #f)
+skip-validation = #(set-if-unset 'skip-validation #f)
+warn-on-ill-formed-factor-string = #(set-if-unset 'warn-on-ill-formed-factor-string #t)
+enable-playback = #(set-if-unset 'enable-playback #t)
+
+ht = #'()
 
 #(define-markup-command
   (heji-markup layout props factors)
@@ -15,18 +21,18 @@ warn-on-empty-factor-list = #(set-if-unset 'warn-on-empty-factor-list #t)
           (map
            (lambda (point-code)
              `(markup (#:override `(font-name . ,heji-font) #:fontsize 5 #:char ,point-code)))
-           (parse-heji factors)))
+           (parse-heji factors skip-validation)))
          (markup-cmd `(make-concat-markup (list ,@accidentals))))
     (interpret-markup layout props
                       (eval markup-cmd (current-module)))))
 
 ji =
-#(define-music-function (factors)
-   (scheme?)
+#(define-music-function (factors note)
+   (scheme? scheme?)
    (let* ((factor-list (cond ((list? factors) factors)
                              ((string? factors)
                               (parse-heji-string factors))
-                             (else '())))
+                             (else '((3 . 0)))))
           (accidentals #{\markup\heji-markup #factor-list #})
           (mark-up #{
             \once \override Voice.Accidental.stencil =
