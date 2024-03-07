@@ -53,7 +53,7 @@ pythagorean-alteration = #(define-scheme-function (note reference-pitch)
                                    (et-interval (expt 2 (/ (vector-ref equal-tempered-intervals interval) 12)))
                                    (pythagorean-interval (vector-ref diatonic-pythagorean-scale interval))
                                    (difference (/ pythagorean-interval et-interval)))
-                              (format #t "interval:~s\nET:~s\nPythagorean:~s\nDifference:~s\n" interval et-interval pythagorean-interval difference)
+                              (format #t "########\ninterval:~s\nET:~s\nPythagorean:~s\nDifference:~s\n" interval et-interval pythagorean-interval difference)
                               (interval-to-alteration difference)))
 
 tune-pitches = #(define-scheme-function (music tuning-map reference-pitch)
@@ -66,7 +66,7 @@ tune-pitches = #(define-scheme-function (music tuning-map reference-pitch)
                                                  (interval (or (assoc-ref tuning-map counter) 1/1))
                                                  (base-alteration (pythagorean-alteration notename reference-pitch))
                                                  )
-                                            (format #t "notename:~s\ninterval:~s\nbase alteration:~s\nresult:~s\n" notename interval base-alteration (interval-to-alteration interval))
+                                            (format #t "--------\nnotename:~s\ninterval:~s\nbase alteration:~s\nresult:~s\n" notename interval base-alteration (interval-to-alteration interval))
                                             (set! counter (+ counter 1))
                                             (ly:make-pitch
                                              octave
