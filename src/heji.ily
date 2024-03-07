@@ -4,14 +4,11 @@
 \include "accidentals.ily"
 \include "lib.ily"
 \include "parser.ily"
-\include "midi.ily"
 
 heji-font = #(set-if-unset 'heji-font "HEJI2")
 warn-on-empty-factors = #(set-if-unset 'warn-on-empty-factors #t)
 skip-validation = #(set-if-unset 'skip-validation #f)
 warn-on-ill-formed-factor-string = #(set-if-unset 'warn-on-ill-formed-factor-string #t)
-enable-playback = #(set-if-unset 'enable-playback #f)
-reference-pitch = #(set-if-unset 'reference-pitch 5)
 
 #(define-markup-command
   (heji-markup layout props factors)
@@ -39,16 +36,11 @@ ji =
             \once \override Voice.Accidental.text =
             #accidentals
                    #}))
-     (if enable-playback
-         (begin
-          (set! tuning-map (assoc-set! tuning-map counter (factors-to-interval factor-list)))
-          (set! counter (+ counter 1))))
      #{ $mark-up $note #}))
 
 heji =
 #(define-scheme-function (music)
    (ly:music?)
-   (if enable-playback (tune-pitches music tuning-map reference-pitch))
    #{
      \accidentalStyle dodecaphonic
      $music
