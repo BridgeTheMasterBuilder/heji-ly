@@ -2,7 +2,7 @@
 
 \include "accidentals.ily"
 
-validate = #(define-scheme-function (factor-exponent)
+validate = #(define-void-function (factor-exponent)
               (pair?)
               (let* ((factor (car factor-exponent))
                      (exponent (cdr factor-exponent))
@@ -15,8 +15,7 @@ validate = #(define-scheme-function (factor-exponent)
                  ((not (prime-p factor))
                   (ly:error (format #f "~d is not a prime factor." factor)))
                  ((> (abs exponent) max-exponent)
-                  (ly:error (format #f "~d-limit accidentals currently only support a maximum exponent of ±~d." factor max-exponent)))
-                 (else '()))))
+                  (ly:error (format #f "~d-limit accidentals currently only support a maximum exponent of ±~d." factor max-exponent))))))
 
 % Precondition: Factors is a possibly empty sorted (in descending order) list of pairs (x . y)
 % Postconditions: The returned list is a sorted list of pairs (x . y) satisfying the following conditions:
