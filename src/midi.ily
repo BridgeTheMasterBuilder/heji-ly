@@ -19,7 +19,7 @@ comma-map = #'((3 . 2187/2048)
 
 tuning-map = #'()
 
-diatonic-pythagorean-scale = ##(1/1 9/8 32/27 4/3 3/2 27/16 16/9)
+diatonic-pythagorean-scale = ##(1/1 9/8 32/27 4/3 3/2 128/81 16/9)
 equal-tempered-intervals = ##(0 2 3 5 7 8 10)
 
 % TODO This is an awful hack! There must be some other way to identify pitches uniquely
@@ -53,7 +53,6 @@ pythagorean-alteration = #(define-scheme-function (note reference-pitch)
                                    (et-interval (expt 2 (/ (vector-ref equal-tempered-intervals interval) 12)))
                                    (pythagorean-interval (vector-ref diatonic-pythagorean-scale interval))
                                    (difference (/ pythagorean-interval et-interval)))
-                              (format #t "########\ninterval:~s\nET:~s\nPythagorean:~s\nDifference:~s\n" interval et-interval pythagorean-interval difference)
                               (interval-to-alteration difference)))
 
 tune-pitches = #(define-scheme-function (music tuning-map reference-pitch)
@@ -64,13 +63,9 @@ tune-pitches = #(define-scheme-function (music tuning-map reference-pitch)
                                                  (notename (ly:pitch-notename pitch))
                                                  (alteration (ly:pitch-alteration pitch))
                                                  (interval (or (assoc-ref tuning-map counter) 1/1))
-                                                 (base-alteration (pythagorean-alteration notename reference-pitch))
-                                                 )
-                                            (format #t "--------\nnotename:~s\ninterval:~s\nbase alteration:~s\nresult:~s\n" notename interval base-alteration (interval-to-alteration interval))
+                                                 (base-alteration (pythagorean-alteration notename reference-pitch)))
                                             (set! counter (+ counter 1))
                                             (ly:make-pitch
                                              octave
                                              notename
-                                             ;(+ base-alteration (if (= interval 1/1) alteration (interval-to-alteration interval)))
-                                             (if (= interval 1/1) alteration (interval-to-alteration interval))
-                                             )))))
+                                             (+ base-alteration (if (= interval 1/1) alteration (interval-to-alteration interval))))))))
