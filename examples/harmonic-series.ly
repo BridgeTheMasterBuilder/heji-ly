@@ -7,11 +7,11 @@
 % The harmonic series up to the 49th partial, using the string syntax
 \score {
   \new Staff {
-    \relative c' {
+    \relative a,,, {
       \clef bass
       \ottava #-1
       \heji {
-        a,,,4 \ottava #0 a' e' a
+        a4 \ottava #0 a' e' a
         \ji "3u5" cis e \ji "u7" g a
         b \ji "3u5" cis \ji "11" d \clef treble e
         \ji "3u13" fis \ji "u7" g \ji "3u5" gis a
