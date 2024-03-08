@@ -18,7 +18,7 @@ warn-on-ill-formed-factor-string = #(set-if-unset 'warn-on-ill-formed-factor-str
            (lambda (point-code)
              `(markup (#:override `(font-name . ,heji-font) #:fontsize 5 #:char ,point-code)))
            (parse-heji factors skip-validation)))
-         (markup-cmd `(make-concat-markup (list ,@accidentals))))
+         (markup-cmd `(make-concat-markup (list ,@accidentals (markup #:hspace -1)))))
     (interpret-markup layout props
                       (eval markup-cmd (current-module)))))
 
