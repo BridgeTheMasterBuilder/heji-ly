@@ -167,5 +167,5 @@ If there are repeated factors the exponents will be summed up:
 <img src="img/6.png" height="200">
 
 ## TODO
-- [ ] Accidentals in chords
-- [ ] Playback (some initial progress in the `playback` branch)
+- [ ] Accidentals in chords (some initial progress in the `chords` branch)
+- [ ] Playback (Working for single-voice scores, working on supporting multiple voices)
