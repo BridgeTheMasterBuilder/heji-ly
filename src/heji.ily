@@ -23,20 +23,16 @@ warn-on-ill-formed-factor-string = #(set-if-unset 'warn-on-ill-formed-factor-str
                       (eval markup-cmd (current-module)))))
 
 ji =
-#(define-music-function (factors note)
-   (scheme? scheme?)
-   (let* ((factor-list (cond ((list? factors) factors)
-                             ((string? factors)
-                              (parse-heji-string factors))
-                             (else (ly:error "Ill-formed factors, expected either an alist of (factor . exponent) or a string"))))
-          (accidentals #{\markup\heji-markup #factor-list #})
-          (mark-up #{
-            \once \override Voice.Accidental.stencil =
-            #ly:text-interface::print
-            \once \override Voice.Accidental.text =
-            #accidentals
-                   #}))
-     #{ $mark-up $note #}))
+#(define-music-function (factors)
+   (string?)
+   (let* ((factor-list (parse-heji-string factors))
+          (accidentals #{\markup\heji-markup #factor-list #}))
+     #{
+       \once \override Voice.Accidental.stencil =
+       #ly:text-interface::print
+       \once \override Voice.Accidental.text =
+       #accidentals
+     #}))
 
 heji =
 #(define-scheme-function (music)
