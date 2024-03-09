@@ -20,6 +20,12 @@ comma-map = #'((3 . 2187/2048)
 diatonic-pythagorean-scale = ##(1/1 9/8 32/27 4/3 3/2 128/81 16/9)
 equal-tempered-intervals = ##(0 2 3 5 7 8 10)
 
+% Precondition: Factors is a possibly empty list of pairs (x . y)
+% Postconditions: The returned list is the product ∏x'_i^(y'_i) for (x_i . y_i) ∈ factors
+%                 where y'_i is the absolute value of y and x'_i is the HEJI comma
+%		  corresponding to factor x_i or its reciprocal, depending on the whether
+%		  y'_i is negative or not. That's because (81/80)^(-1) = 80/81 only it isn't
+%		  stored in a format that can be manipulated mathematically so we need to
 factors-to-interval = #(define-scheme-function (factors)
                          (list?)
                          (if (nil? factors)
@@ -29,10 +35,9 @@ factors-to-interval = #(define-scheme-function (factors)
                                     (f (car this-factor))
                                     (e (cdr this-factor))
                                     (comma (assoc-ref comma-map f)))
-                               (cond ((= f 0) (factors-to-interval rest))
-                                     ((negative? e)
-                                      (* (expt (/ 1 comma) (abs e)) (factors-to-interval rest)))
-                                     (else (* (expt comma e) (factors-to-interval rest)))))))
+                               (if (= f 0)
+                                   (factors-to-interval rest)
+                                   (* (expt comma e) (factors-to-interval rest))))))
 
 interval-to-alteration = #(define-scheme-function (interval)
                             (rational?)

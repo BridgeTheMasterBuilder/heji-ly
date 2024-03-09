@@ -60,5 +60,5 @@ render-midi = ##t
     }
   >>
   % Uncomment to render a MIDI file TODO try to make it so this isn't necessary
-  %\midi {}
+  \midi {}
 }
