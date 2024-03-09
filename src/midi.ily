@@ -21,11 +21,8 @@ diatonic-pythagorean-scale = ##(1/1 9/8 32/27 4/3 3/2 128/81 16/9)
 equal-tempered-intervals = ##(0 2 3 5 7 8 10)
 
 % Precondition: Factors is a possibly empty list of pairs (x . y)
-% Postconditions: The returned list is the product ∏x'_i^(y'_i) for (x_i . y_i) ∈ factors
-%                 where y'_i is the absolute value of y and x'_i is the HEJI comma
-%		  corresponding to factor x_i or its reciprocal, depending on the whether
-%		  y'_i is negative or not. That's because (81/80)^(-1) = 80/81 only it isn't
-%		  stored in a format that can be manipulated mathematically so we need to
+% Postcondition: The returned list is the product ∏x'_i^(y_i) for (x_i . y_i) ∈ factors
+%                 where x'_i is the HEJI comma corresponding to factor x_i
 factors-to-interval = #(define-scheme-function (factors)
                          (list?)
                          (if (nil? factors)
@@ -39,11 +36,18 @@ factors-to-interval = #(define-scheme-function (factors)
                                    (factors-to-interval rest)
                                    (* (expt comma e) (factors-to-interval rest))))))
 
+% Postcondition: The returned value is log_(12√(2^2)) interval expressed as a rational number
+%		 accurate up to a difference of epsilon. What this expression tells us is how
+%		 many equal tempered whole tones the interval consists of, which is how LilyPond
+%		 (and MIDI) represent pitch bends
 interval-to-alteration = #(define-scheme-function (interval)
                             (rational?)
                             (define epsilon 1/1000000000000000)
                             (rationalize (inexact->exact (log-b (expt 2 (/ 2 12)) interval)) epsilon))
 
+% Postcondition: The returned value is the number of equal tempered whole tones (see above comment)
+%		 that comprise the difference between the Pythagorean interval (formed by the input note and the
+%		 reference pitch (by default, A)) and the corresponding equal tempered interval
 pythagorean-alteration = #(define-scheme-function (note reference-pitch)
                             (number? number?)
                             (let* ((interval (let ((diff (- note reference-pitch)))
