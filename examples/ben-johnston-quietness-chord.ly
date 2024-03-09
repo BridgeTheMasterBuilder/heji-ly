@@ -2,6 +2,7 @@
 
 \include "../src/heji.ily"
 
+reference-pitch = 5
 render-midi = ##t
 
 \HejiScore {

@@ -7,19 +7,11 @@
 \include "midi.ily"
 
 heji-font = #(set-if-unset 'heji-font "HEJI2")
-warn-on-empty-factors = #(set-if-unset 'warn-on-empty-factors #t)
+warn-on-empty-factors = #(set-if-unset 'warn-on-empty-factors #f)
 skip-validation = #(set-if-unset 'skip-validation #f)
 warn-on-ill-formed-factor-string = #(set-if-unset 'warn-on-ill-formed-factor-string #t)
 render-midi = #(set-if-unset 'render-midi #f)
 reference-pitch = #(set-if-unset 'reference-pitch 5)
-
-HejiStaff =
-#(define-scheme-function (music)
-   (ly:music?)
-   #{
-     \new Staff \with { \accidentalStyle dodecaphonic }
-     { $music }
-   #})
 
 HejiScore =
 #(define-scheme-function (music)
@@ -48,6 +40,14 @@ HejiScore =
            $music
          }
        #}))
+
+HejiStaff =
+#(define-scheme-function (music)
+   (ly:music?)
+   #{
+     \new Staff \with { \accidentalStyle dodecaphonic }
+     { $music }
+   #})
 
 #(define-markup-command
   (heji-markup layout props factors)
