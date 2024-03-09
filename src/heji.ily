@@ -4,11 +4,15 @@
 \include "accidentals.ily"
 \include "lib.ily"
 \include "parser.ily"
+\include "midi.ily"
 
 heji-font = #(set-if-unset 'heji-font "HEJI2")
 warn-on-empty-factors = #(set-if-unset 'warn-on-empty-factors #t)
 skip-validation = #(set-if-unset 'skip-validation #f)
 warn-on-ill-formed-factor-string = #(set-if-unset 'warn-on-ill-formed-factor-string #t)
+% TODO leave this on true for now, until this can be properly implemented
+render-midi = #(set-if-unset 'render-midi #t)
+reference-pitch = #(set-if-unset 'reference-pitch 5)
 
 #(define-markup-command
   (heji-markup layout props factors)
@@ -23,11 +27,11 @@ warn-on-ill-formed-factor-string = #(set-if-unset 'warn-on-ill-formed-factor-str
                       (eval markup-cmd (current-module)))))
 
 ji-chord =
-#(define-music-function (factors note)
+#(define-music-function (factor-list note)
    (list? ly:music?)
    (let* ((notes (event-chord-notes note))
           (num-notes (length notes))
-          (num-factors (length factors)))
+          (num-factors (length factor-list)))
      (if (and (not skip-validation) (not (= num-notes num-factors)))
          (ly:parser-error
           (format #f "Insufficient number of factor strings supplied, expected ~d but got ~d" num-notes num-factors)))
@@ -37,21 +41,21 @@ ji-chord =
                             (factors (cadr note-factors)))
                         ; TODO Necessary to reinvent the wheel by implementing conflict resolution manually?
                         ; TODO Also need stem direction heuristic
-                        #{ \new Voice { \shiftOff #(ji factors note) } #})) (zip notes factors))))
+                        #{ \new Voice { \shiftOff #(ji-solo factors note) } #})) (zip notes factor-list))))
       #{ #(eval `(make-simultaneous-music (list ,@voices)) (current-module)) #})))
 
-ji-solo =
-#(define-music-function (factors note)
-   (string? ly:music?)
-   (let* ((factor-list (parse-heji-string factors))
-          (accidentals #{\markup\heji-markup #factor-list #}))
-     #{
-       \once \override Voice.Accidental.stencil =
-       #ly:text-interface::print
-       \once \override Voice.Accidental.text =
-       #accidentals
-       #note
-     #}))
+ji-solo = #(define-music-function (factors note)
+             (string? ly:music?)
+             (let* ((factor-list (parse-heji-string factors))
+                    (accidentals #{\markup\heji-markup #factor-list #}))
+               (if render-midi (tune-pitches note (factors-to-interval factor-list) reference-pitch))
+               #{
+                 \once \override Voice.Accidental.stencil =
+                 #ly:text-interface::print
+                 \once \override Voice.Accidental.text =
+                 #accidentals
+                 #note
+               #}))
 
 ji =
 #(define-music-function (factors note)
@@ -66,6 +70,7 @@ ji =
             (ly:parser-error "Expected note"))
         (ji-solo factors note))))
 
+% TODO is it possible to add a \midi {} block here if render-midi = #t?
 heji =
 #(define-scheme-function (music)
    (ly:music?)

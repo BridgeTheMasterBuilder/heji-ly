@@ -25,7 +25,6 @@ validate = #(define-void-function (factor-exponent)
 %		((* 5 prime) . z)
 %	  where prime is some prime number, see `accidentals.ily` for an explanation
 %	- No pair has 2 as its key
-%
 normalize-factors = #(define-scheme-function (factors)
                        (list?)
                        (if (nil? factors)

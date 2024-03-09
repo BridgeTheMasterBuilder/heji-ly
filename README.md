@@ -1,4 +1,6 @@
 # heji-ly
+**NOTE: This package is under active development and should be considered experimental. Currently chords are not supported.**
+
 This [LilyPond](https://lilypond.org/index.html) package implements support for the [Helmholtz-Ellis Just Intonation](https://masa.plainsound.org/pdfs/notation.pdf) notation system. All standard accidentals (47-limit as of the time of writing) are supported and they can be combined in arbitrary ways through a general interface.
 
 ## Dependencies
@@ -165,7 +167,3 @@ If there are repeated factors the exponents will be summed up:
 ```
 
 <img src="img/6.png" height="200">
-
-## TODO
-- [ ] Accidentals in chords
-- [ ] Playback (some initial progress in the `playback` branch)
