@@ -17,13 +17,8 @@ comma-map = #'((3 . 2187/2048)
                (43 . 129/128)
                (47 . 752/729))
 
-tuning-map = #'()
-
 diatonic-pythagorean-scale = ##(1/1 9/8 32/27 4/3 3/2 128/81 16/9)
 equal-tempered-intervals = ##(0 2 3 5 7 8 10)
-
-% TODO This is an awful hack! There must be some other way to identify pitches uniquely
-counter = #0
 
 factors-to-interval = #(define-scheme-function (factors)
                          (list?)
@@ -55,16 +50,17 @@ pythagorean-alteration = #(define-scheme-function (note reference-pitch)
                                    (difference (/ pythagorean-interval et-interval)))
                               (interval-to-alteration difference)))
 
-tune-pitches = #(define-scheme-function (music tuning-map reference-pitch)
-                  (ly:music? list? number?)
-                  (set! counter 0)
+tune-pitches = #(define-scheme-function (music interval reference-pitch)
+                  (ly:music? rational? number?)
+                  ; We are going to get a ton of warnings because the alterations do not have
+                  ; corresponding glyphs, but it doesn't matter since we are inserting the
+                  ; glyphs manually using markup
+                  (ly:expect-warning "")
                   (change-pitches music (lambda (pitch)
                                           (let* ((octave (ly:pitch-octave pitch))
                                                  (notename (ly:pitch-notename pitch))
                                                  (alteration (ly:pitch-alteration pitch))
-                                                 (interval (or (assoc-ref tuning-map counter) 1/1))
                                                  (base-alteration (pythagorean-alteration notename reference-pitch)))
-                                            (set! counter (+ counter 1))
                                             (ly:make-pitch
                                              octave
                                              notename
