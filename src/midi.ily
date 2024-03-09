@@ -59,12 +59,12 @@ pythagorean-alteration = #(define-scheme-function (note reference-pitch)
                                    (difference (/ pythagorean-interval et-interval)))
                               (interval-to-alteration difference)))
 
+% TODO Get rid of spurious missing glyph warnings
 tune-pitches = #(define-scheme-function (music interval reference-pitch)
                   (ly:music? rational? number?)
                   ; We are going to get a ton of warnings because the alterations do not have
                   ; corresponding glyphs, but it doesn't matter since we are inserting the
                   ; glyphs manually using markup
-                  (ly:expect-warning "")
                   (change-pitches music (lambda (pitch)
                                           (let* ((octave (ly:pitch-octave pitch))
                                                  (notename (ly:pitch-notename pitch))

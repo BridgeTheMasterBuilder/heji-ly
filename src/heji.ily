@@ -10,9 +10,44 @@ heji-font = #(set-if-unset 'heji-font "HEJI2")
 warn-on-empty-factors = #(set-if-unset 'warn-on-empty-factors #t)
 skip-validation = #(set-if-unset 'skip-validation #f)
 warn-on-ill-formed-factor-string = #(set-if-unset 'warn-on-ill-formed-factor-string #t)
-% TODO leave this on true for now, until this can be properly implemented
-render-midi = #(set-if-unset 'render-midi #t)
+render-midi = #(set-if-unset 'render-midi #f)
 reference-pitch = #(set-if-unset 'reference-pitch 5)
+
+HejiStaff =
+#(define-scheme-function (music)
+   (ly:music?)
+   #{
+     \new Staff \with { \accidentalStyle dodecaphonic }
+     { $music }
+   #})
+
+HejiScore =
+#(define-scheme-function (music)
+   (ly:music?)
+   (if render-midi
+       #{
+         \score
+         {
+           $music
+           \layout {}
+           \midi {
+             \context {
+               \Staff
+               \remove "Staff_performer"
+             }
+             \context {
+               \Voice
+               \consists "Staff_performer"
+             }
+           }
+         }
+       #}
+       #{
+         \score
+         {
+           $music
+         }
+       #}))
 
 #(define-markup-command
   (heji-markup layout props factors)
@@ -35,14 +70,18 @@ ji-chord =
      (if (and (not skip-validation) (not (= num-notes num-factors)))
          (ly:parser-error
           (format #f "Insufficient number of factor strings supplied, expected ~d but got ~d" num-notes num-factors)))
-     (let
-      ((voices (map (lambda (note-factors)
-                      (let ((note (car note-factors))
-                            (factors (cadr note-factors)))
-                        ; TODO Necessary to reinvent the wheel by implementing conflict resolution manually?
-                        ; TODO Also need stem direction heuristic
-                        #{ \new Voice { \shiftOff #(ji-solo factors note) } #})) (zip notes factor-list))))
-      #{ #(eval `(make-simultaneous-music (list ,@voices)) (current-module)) #})))
+     (let*
+      ((note-factor-list (zip notes factor-list))
+       (first (car note-factor-list))
+       (rest (cdr note-factor-list))
+       (tune-note (lambda (note-factors)
+                    (let ((note (car note-factors))
+                          (factors (cadr note-factors)))
+                      (ji-solo factors note))))
+       (voices (cons (tune-note first) (append-map (lambda (note-factors)
+                                                     (list (make-music 'VoiceSeparator) (tune-note note-factors))) rest)))
+       (ids (reverse (iota num-notes 1))))
+      #{ \voices #ids #(make-simultaneous-music voices) #})))
 
 ji-solo = #(define-music-function (factors note)
              (string? ly:music?)
@@ -69,12 +108,3 @@ ji =
         (if (not (eq? (ly:music-property note 'name) 'NoteEvent))
             (ly:parser-error "Expected note"))
         (ji-solo factors note))))
-
-% TODO is it possible to add a \midi {} block here if render-midi = #t?
-heji =
-#(define-scheme-function (music)
-   (ly:music?)
-   #{
-     \accidentalStyle dodecaphonic
-     $music
-   #})
