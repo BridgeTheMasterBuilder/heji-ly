@@ -65,14 +65,15 @@ parse-heji = #(define-scheme-function (factors skip-validation)
                 (if (not skip-validation) (for-each validate factors))
                 (let* ((sorted-factors (sort factors factor-gt))
                        (normalized-factors (let ((normalized (normalize-factors sorted-factors)))
-                                             (if (and (nil? normalized) warn-on-empty-factors)
-                                                 (ignore "Interpreting empty factor list as natural accidental" '((3 . 0)))
+                                             (if (nil? normalized)
+                                                 (begin
+                                                  (if warn-on-empty-factors
+                                                      (ly:warning "Interpreting empty factor list as natural accidental")) '((3 . 0)))
                                                  normalized)))
                        (indices (map
                                  (lambda (factor-exponent)
                                    (hash (car factor-exponent) (cdr factor-exponent)))
                                  normalized-factors)))
-                  ;(display normalized-factors)
                   (map
                    (lambda (index)
                      (assoc-ref accidental-map index))
