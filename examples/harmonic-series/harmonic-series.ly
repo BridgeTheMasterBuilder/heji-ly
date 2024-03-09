@@ -1,6 +1,6 @@
 \version "2.24.1"
 
-\include "../src/heji.ily"
+\include "../../src/heji.ily"
 
 % The harmonic series up to the 49th partial
 \score {
