@@ -74,3 +74,17 @@ tune-pitches = #(define-scheme-function (music interval reference-pitch)
                                              octave
                                              notename
                                              (+ base-alteration (if (= interval 1/1) alteration (interval-to-alteration interval))))))))
+
+expand-chord =
+#(define-music-function (chord)
+   (ly:music?)
+   (let* ((notes (event-chord-notes chord))
+          (num-notes (length notes))
+          (first (car notes))
+          (rest (cdr notes))
+          (voices (cons first
+                        (append-map (lambda (note)
+                                      (list (make-music 'VoiceSeparator) note))
+                                    rest)))
+          (ids (reverse (iota num-notes 1))))
+     #{ \voices #ids #(make-simultaneous-music voices) #}))

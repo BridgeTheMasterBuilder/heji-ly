@@ -2,10 +2,10 @@
 
 \include "../src/heji.ily"
 
-reference-pitch = 5
 render-midi = ##t
 
 \HejiScore {
+  %\displayMusic
   <<
     \HejiStaff {
       \set Staff.midiInstrument = "reed organ"
@@ -13,7 +13,7 @@ render-midi = ##t
       \relative a' {
         \clef treble
 
-        \ji #'("" "3u5") <b g'>1
+        <b \ji "3u5" g'>1
       }
     }
 
@@ -23,7 +23,7 @@ render-midi = ##t
       \relative a' {
         \clef treble
 
-        \ji #'("u7" "11") <g d'>1
+        <\ji "u7" g \ji "11" d'>1
       }
     }
 
@@ -32,7 +32,7 @@ render-midi = ##t
 
       \relative a, {
         \clef alto
-        \ji #'("3u5" "3u13") <c' f>1
+        <\ji "3u5" c' \ji "3u13" f>1
       }
     }
 
