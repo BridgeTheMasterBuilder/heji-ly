@@ -171,7 +171,7 @@ Chords can be input in exactly the same way:
 \HejiScore {
   \HejiStaff {
     \relative a {
-      <a \ji "3u5" c e \ji "u7" g b \ji "11" d \ji "3 u13" f \ji "u17" a>
+      <a \ji "3u5" c e \ji "u7" g b \ji "11" d \ji "3 u13" f \ji "3u17" a>
     }
   }
 }
@@ -182,12 +182,16 @@ Chords can be input in exactly the same way:
 Natural accidentals can be omitted by setting the `print-naturals` option. Unfortunately, this requires specifying factors for all notes in the file, even if they are empty: 
 
 ```lilypond
+\version "2.24.1"
+
+\include "heji.ily"
+
 print-naturals = ##f
 
 \HejiScore {
   \HejiStaff {
     \relative a {
-      <\ji "" a \ji "3u5" c \ji "" e \ji "u7" g \ji "" b \ji "11" d \ji "3 u13" f \ji "u17" a>
+      <\ji "" a \ji "3u5" c \ji "" e \ji "u7" g \ji "" b \ji "11" d \ji "3 u13" f \ji "3u17" a>
     }
   }
 }
@@ -195,7 +199,50 @@ print-naturals = ##f
 
 <img src="media/8.png" height="200">
 
-This restriction, as well as an ability to have more fine-grained control over natural accidental printing, will be addressed in the future (it's doable, but not quite as simple as it seems).
+Another option is to use sharpened/flattened note names for the notes with HEJI accidentals and set the accidental style manually, e.g.:
+
+```lilypond
+\version "2.24.1"
+
+\include "heji.ily"
+
+\HejiScore {
+  \HejiStaff {
+    \relative a {
+      \accidentalStyle forget
+      <a \ji "3u5" cis e \ji "u7" ges b \ji "11" dis \ji "3 u13" fis \ji "3u17" ais>1
+    }
+  }
+}
+```
+
+<img src="media/9.png" height="200">
+
+It's also possible to selectively omit accidentals:
+
+```lilypond
+\version "2.24.1"
+
+\include "heji-ly/src/heji.ily"
+
+render-midi = ##t
+
+\HejiScore {
+  \HejiStaff {
+    \relative a {
+      \once\omit Accidental <a \ji "3u5" cis e \ji "u7" ges b \ji "11" dis \ji "3 u13" fis \ji "3u17" ais>
+    }
+  }
+}
+```
+
+<img src="media/10.png" height="200">
+
+Note that these are not fully equivalent as evidenced by the difference in output.
+
+The reason why this works is because the only thing that matters with regards to calculating the accidental and the tuning in the playback are the factors, the note name is irrelevant beyond specifying where the note should be placed in the staff.
+
+Please open an issue if these restrictions seem unreasonable (lifting them to doable but not a high priority at the moment).
 
 ### Playback
 Playback is only supported up to 16 simulatenous notes due to a limitation of MIDI. In order to support playback each note needs to be in its own channel and MIDI unfortunately only supports 16.
@@ -210,15 +257,13 @@ render-midi = ##t
     \set Staff.midiInstrument = "clarinet"
 
     \relative a {
-      <a \ji "3u5" c e \ji "u7" g b \ji "11" d \ji "3 u13" f \ji "u17" a>1
+      <a \ji "3u5" c e \ji "u7" g b \ji "11" d \ji "3 u13" f \ji "3u17" a>1
     }
   }
 }
 ```
 
-
 https://github.com/BridgeTheMasterBuilder/heji-ly/assets/71600489/899a95ab-adb3-432d-8c1c-b6d81aa0de74
-
 
 ## Options
 
