@@ -61,6 +61,8 @@ HejiStaff =
     (interpret-markup layout props
                       (eval markup-cmd (current-module)))))
 
+% TODO, if render-midi is set, comb over the whole staff tuning notes and looking for chords to split up and put them
+% in invisible staves
 ji-chord =
 #(define-music-function (factor-list note)
    (list? ly:music?)
@@ -78,10 +80,13 @@ ji-chord =
                     (let ((note (car note-factors))
                           (factors (cadr note-factors)))
                       (ji-solo factors note))))
-       (voices (cons (tune-note first) (append-map (lambda (note-factors)
-                                                     (list (make-music 'VoiceSeparator) (tune-note note-factors))) rest)))
+       ;        (voices (cons (tune-note first) (append-map (lambda (note-factors)
+       ;                                                      (list (make-music 'VoiceSeparator) (tune-note note-factors))) rest)))
+       ;        (ids (reverse (iota num-notes 1))))
+       ;       #{ \voices #ids #(make-simultaneous-music voices) #})))
+       (voices (map (lambda (note-factors) (tune-note note-factors)) note-factor-list))
        (ids (reverse (iota num-notes 1))))
-      #{ \voices #ids #(make-simultaneous-music voices) #})))
+      (make-event-chord voices))))
 
 ji-solo = #(define-music-function (factors note)
              (string? ly:music?)
@@ -89,9 +94,9 @@ ji-solo = #(define-music-function (factors note)
                     (accidentals #{\markup\heji-markup #factor-list #}))
                (if render-midi (tune-pitches note (factors-to-interval factor-list) reference-pitch))
                #{
-                 \once \override Voice.Accidental.stencil =
+                 \tweak Accidental.stencil
                  #ly:text-interface::print
-                 \once \override Voice.Accidental.text =
+                 \tweak Accidental.text
                  #accidentals
                  #note
                #}))
