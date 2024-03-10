@@ -7,7 +7,7 @@ render-midi = ##t
 \HejiScore {
   <<
     \HejiStaff {
-      \set Staff.midiInstrument = "reed organ"
+      \set Staff.midiInstrument = "violin"
 
       \relative a' {
         \clef treble
@@ -17,7 +17,7 @@ render-midi = ##t
     }
 
     \HejiStaff {
-      \set Staff.midiInstrument = "reed organ"
+      \set Staff.midiInstrument = "violin"
 
       \relative a' {
         \clef treble
@@ -27,7 +27,7 @@ render-midi = ##t
     }
 
     \HejiStaff {
-      \set Staff.midiInstrument = "reed organ"
+      \set Staff.midiInstrument = "viola"
 
       \relative a, {
         \clef alto
@@ -36,7 +36,7 @@ render-midi = ##t
     }
 
     \HejiStaff {
-      \set Staff.midiInstrument = "reed organ"
+      \set Staff.midiInstrument = "cello"
 
       \relative a, {
         \clef bass

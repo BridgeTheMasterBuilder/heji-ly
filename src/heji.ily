@@ -95,13 +95,3 @@ ji =
        #accidentals
        #note
      #}))
-
-hideNaturals =
-#(define-void-function ()
-   ()
-   (set! print-naturals #f))
-
-unHideNaturals =
-#(define-void-function ()
-   ()
-   (set! print-naturals #t))
