@@ -7,7 +7,7 @@ This [LilyPond](https://lilypond.org/index.html) package implements support for 
 The *HEJI2* font must be installed, which can be downloaded from [https://www.plainsound.org/](https://www.plainsound.org/). After downloading, just place it wherever LilyPond expects to find fonts on your system.
 
 ## Usage
-To use this package in your project simply include the line 
+To use this package in your project simply include the line
 
 ```lilypond
 \include "/path/to/heji.ily"
@@ -23,7 +23,7 @@ Music that uses HEJI accidentals should be placed in a `\HejiScore` block instea
 \HejiScore {
   \HejiStaff {
     \relative a {
-      \ji "5" a
+      \ji"5"a
     }
   }
 }
@@ -41,7 +41,7 @@ compare to:
 \HejiScore {
   \new Staff {
     \relative a {
-      \ji "5" a
+      \ji"5"a
     }
   }
 }
@@ -58,13 +58,13 @@ The syntax for factor strings is specified by the following grammar:
 factor string = '"', factor *, '"' ;
 
 factor = otonal factor
-       | utonal factor ;
+| utonal factor ;
 
 otonal factor = [ 'o' ], prime factor ;
 
 utonal factor = 'u', prime factor ;
 
-prime factor = prime, [ exponent ] ; 
+prime factor = prime, [ exponent ] ;
 
 prime = ? prime number ? ;
 
@@ -100,7 +100,7 @@ Accidentals can be combined in arbitrary ways:
 \HejiScore {
   \HejiStaff {
     \relative a {
-      \ji "3 5 7 11 13 17 19 23 29 31 37 41 43 47" a
+      \ji"3 5 7 11 13 17 19 23 29 31 37 41 43 47"a
     }
   }
 }
@@ -118,7 +118,7 @@ The order of factors does not matter:
 \HejiScore {
   \HejiStaff {
     \relative a {
-      \ji "3 7 u11" a
+      \ji"3 7 u11"a
     }
   }
 }
@@ -134,7 +134,7 @@ The order of factors does not matter:
 \HejiScore {
   \HejiStaff {
     \relative a {
-      \ji "u11 7 3" a
+      \ji"u11 7 3"a
     }
   }
 }
@@ -152,7 +152,7 @@ If there are repeated factors the exponents will be summed up:
 \HejiScore {
   \HejiStaff {
     \relative a {
-      \ji "u3 u5^3 u5^2 u3^2 u5 3^2 u3 5^4 5^2 3^2" a
+      \ji"u3 u5^3 u5^2 u3^2 u5 3^2 u3 5^4 5^2 3^2"a
     }
   }
 }
@@ -161,7 +161,7 @@ If there are repeated factors the exponents will be summed up:
 <img src="media/6.png" height="200">
 
 ### Chords
-Chords can be input in exactly the same way: 
+Chords can be input in exactly the same way:
 
 ```lilypond
 \version "2.24.1"
@@ -171,7 +171,7 @@ Chords can be input in exactly the same way:
 \HejiScore {
   \HejiStaff {
     \relative a {
-      <a \ji "3u5" c e \ji "u7" g b \ji "11" d \ji "3 u13" f \ji "3u17" a>
+      <a \ji"3u5"c e \ji"u7"g b \ji"11"d \ji"3 u13"f \ji"3u17"a>
     }
   }
 }
@@ -179,7 +179,7 @@ Chords can be input in exactly the same way:
 
 <img src="media/7.png" height="200">
 
-Natural accidentals can be omitted by setting the `print-naturals` option. Unfortunately, this requires specifying factors for all notes in the file, even if they are empty: 
+Natural accidentals can be omitted by setting the `print-naturals` option. Unfortunately, this requires specifying factors for all notes in the file, even if they are empty:
 
 ```lilypond
 \version "2.24.1"
@@ -191,7 +191,7 @@ print-naturals = ##f
 \HejiScore {
   \HejiStaff {
     \relative a {
-      <\ji "" a \ji "3u5" c \ji "" e \ji "u7" g \ji "" b \ji "11" d \ji "3 u13" f \ji "3u17" a>
+      <\ji""a \ji"3u5"c \ji""e \ji"u7"g \ji""b \ji"11"d \ji"3 u13"f \ji"3u17"a>
     }
   }
 }
@@ -210,7 +210,7 @@ Another option is to use sharpened/flattened note names for the notes with HEJI 
   \HejiStaff {
     \relative a {
       \accidentalStyle forget
-      <a \ji "3u5" cis e \ji "u7" ges b \ji "11" dis \ji "3 u13" fis \ji "3u17" ais>1
+      <a \ji"3u5"cis e \ji"u7"ges b \ji"11"dis \ji"3 u13"fis \ji"3u17"ais>1
     }
   }
 }
@@ -230,7 +230,7 @@ render-midi = ##t
 \HejiScore {
   \HejiStaff {
     \relative a {
-      \once\omit Accidental <a \ji "3u5" cis e \ji "u7" ges b \ji "11" dis \ji "3 u13" fis \ji "3u17" ais>
+      \once\omit Accidental <a \ji"3u5"cis e \ji"u7"ges b \ji"11"dis \ji"3 u13"fis \ji"3u17"ais>
     }
   }
 }
@@ -257,7 +257,7 @@ render-midi = ##t
     \set Staff.midiInstrument = "clarinet"
 
     \relative a {
-      <a \ji "3u5" c e \ji "u7" g b \ji "11" d \ji "3 u13" f \ji "3u17" a>1
+      <a \ji"3u5"c e \ji"u7"g b \ji"11"d \ji"3 u13"f \ji"3u17"a>1
     }
   }
 }
@@ -276,10 +276,10 @@ render-midi = ##t
 ```
 
 Currently supported options:
-- `heji-font` = <string> - Filename of the HEJI2 font on your system, excluding the file extension. Default: `"HEJI2"` 
-- `warn-on-empty-factors` = Whether to issue a warning when no factors are supplied to the `\ji` function. Default: `#t` 
+- `heji-font` = <string> - Filename of the HEJI2 font on your system, excluding the file extension. Default: `"HEJI2"`
+- `warn-on-empty-factors` = Whether to issue a warning when no factors are supplied to the `\ji` function. Default: `#t`
 - `skip-validation` - Whether to skip validation of factors. Normally, factors are checked to make sure that only prime number factors appear in the list and that the exponents do not exceed the maximum supported value. Only set to `#t` if you're generating LilyPond code and can guarantee the factors are legal and want to squeeze some extra performance. Default: `#f`
-- `warn-on-ill-formed-factor-string` - The factor parser is extremely lenient; it will ignore any unexpected characters and continue parsing. Set to #t if you wish to be warned about these unexpected characters. 
+- `warn-on-ill-formed-factor-string` - The factor parser is extremely lenient; it will ignore any unexpected characters and continue parsing. Set to #t if you wish to be warned about these unexpected characters.
 - `render-midi` - Set to `#t` if you want a rendered MIDI file. No need for `\midi {}` blocks, just set to `#t` and LilyPond will produce a MIDI file as well as a PDF score. Default: `#f`
 - `reference-pitch` - The reference pitch to use (only affects MIDI playback). Default: `5` (A)
-- `print-naturals` - Whether to print natural accidentals. Currently a binary choice that applies to the whole file. Default: `#t` 
+- `print-naturals` - Whether to print natural accidentals. Currently a binary choice that applies to the whole file. Default: `#t`
