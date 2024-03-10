@@ -75,6 +75,8 @@ tune-pitches = #(define-scheme-function (music interval reference-pitch)
                                              notename
                                              (+ base-alteration (if (= interval 1/1) alteration (interval-to-alteration interval))))))))
 
+% LilyPond currently does not support microtonal playback for chords, so to achieve that we must split up chords
+% into separate voices
 expand-chord =
 #(define-music-function (chord)
    (ly:music?)

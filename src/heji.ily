@@ -12,6 +12,7 @@ skip-validation = #(set-if-unset 'skip-validation #f)
 warn-on-ill-formed-factor-string = #(set-if-unset 'warn-on-ill-formed-factor-string #t)
 render-midi = #(set-if-unset 'render-midi #f)
 reference-pitch = #(set-if-unset 'reference-pitch 5)
+print-naturals = #(set-if-unset 'print-naturals #t)
 
 HejiScore =
 #(define-void-function (music)
@@ -35,6 +36,8 @@ HejiScore =
                 {
                   #expanded
                   \midi {
+                    % Ensures that LilyPond assigns separate MIDI channels to each voice, which is needed to
+                    % support playback
                     \context {
                       \Staff
                       \remove "Staff_performer"
@@ -46,6 +49,7 @@ HejiScore =
                   }
                               } #}))
          (add-score main-score)
+         ; playback-score has no layout {} block so it won't be visible
          (add-score playback-score))
        (add-score
         #{
@@ -71,7 +75,7 @@ HejiStaff =
           (map
            (lambda (point-code)
              `(markup (#:override `(font-name . ,heji-font) #:fontsize 5 #:char ,point-code)))
-           (parse-heji factors skip-validation)))
+           (parse-heji factors)))
          (markup-cmd `(make-concat-markup (list ,@accidentals (markup #:hspace -1)))))
     (interpret-markup layout props
                       (eval markup-cmd (current-module)))))
@@ -91,3 +95,13 @@ ji =
        #accidentals
        #note
      #}))
+
+hideNaturals =
+#(define-void-function ()
+   ()
+   (set! print-naturals #f))
+
+unHideNaturals =
+#(define-void-function ()
+   ()
+   (set! print-naturals #t))

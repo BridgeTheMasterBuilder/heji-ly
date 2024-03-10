@@ -1,5 +1,5 @@
 # heji-ly
-**NOTE: This package is under active development and should be considered experimental. Currently chords are partially supported (playback works, but the chords will appear as multiple voices).**
+**NOTE: This package is under active development and should be considered experimental.**
 
 This [LilyPond](https://lilypond.org/index.html) package implements support for the [Helmholtz-Ellis Just Intonation](https://masa.plainsound.org/pdfs/notation.pdf) notation system. All standard accidentals (47-limit as of the time of writing) are supported and they can be combined in arbitrary ways through a general interface.
 
@@ -13,7 +13,7 @@ To use this package in your project simply include the line
 \include "/path/to/heji.ily"
 ```
 ### HEJI scores and staves
-Music that uses HEJI accidentals should be placed in a `\HejiScore` block instead of a `\score` context, which causes LilyPond to render the score to a MIDI file when the `render-midi` option is set (see [Options](#options)). Inside of `\HejiScore` blocks use `\HejiStaff` instead of `\new Staff` to ensure that accidentals are always printed properly:
+Music that uses HEJI accidentals should be placed in a `\HejiScore` block instead of a `\score` context, which is necessary for LilyPond to properly render the score to a MIDI file when the `render-midi` option is set (see [Options](#options)). Inside of `\HejiScore` blocks use `\HejiStaff` instead of `\new Staff` to ensure that accidentals are always printed properly:
 
 ```lilypond
 \version "2.24.1"
@@ -29,7 +29,7 @@ Music that uses HEJI accidentals should be placed in a `\HejiScore` block instea
 }
 ```
 
-<img src="img/1.png" height="200">
+<img src="media/1.png" height="200">
 
 compare to:
 
@@ -47,7 +47,7 @@ compare to:
 }
 ```
 
-<img src="img/2.png" height="200">
+<img src="media/2.png" height="200">
 
 ### The \ji function
 HEJI accidentals can be added to a note by writing `\ji <factor string> <note>`
@@ -72,6 +72,8 @@ exponent = '^', nat ;
 
 nat = ? natural number ? ;
 ```
+
+In plain English: A list of prime numbers optionally raised to some power ("x^a y^b ...") which we call a *factor*. Factors can be prefaced by the letters 'o' or 'u' to specify otonal and utonal factors respectively. A factor by itself is interpreted as otonal. Whitespace is only necessary to differentiate different numbers and can otherwise be omitted.
 
 Examples of well-formed strings:
 
@@ -104,7 +106,7 @@ Accidentals can be combined in arbitrary ways:
 }
 ```
 
-<img src="img/3.png" height="200">
+<img src="media/3.png" height="200">
 
 The order of factors does not matter:
 
@@ -122,7 +124,7 @@ The order of factors does not matter:
 }
 ```
 
-<img src="img/4.png" height="200">
+<img src="media/4.png" height="200">
 
 ```lilypond
 \version "2.24.1"
@@ -138,7 +140,7 @@ The order of factors does not matter:
 }
 ```
 
-<img src="img/5.png" height="200">
+<img src="media/5.png" height="200">
 
 If there are repeated factors the exponents will be summed up:
 
@@ -156,13 +158,79 @@ If there are repeated factors the exponents will be summed up:
 }
 ```
 
-<img src="img/6.png" height="200">
+<img src="media/6.png" height="200">
+
+### Chords
+Chords can be input in exactly the same way: 
+
+```lilypond
+\version "2.24.1"
+
+\include "heji.ily"
+
+\HejiScore {
+  \HejiStaff {
+    \relative a {
+      <a \ji "3u5" c e \ji "u7" g b \ji "11" d \ji "3 u13" f \ji "u17" a>
+    }
+  }
+}
+```
+
+<img src="media/7.png" height="200">
+
+Natural accidentals can be omitted by setting the `print-naturals` option. Unfortunately, this requires specifying factors for all notes in the file, even if they are empty: 
+
+```lilypond
+print-naturals = ##f
+
+\HejiScore {
+  \HejiStaff {
+    \relative a {
+      <\ji "" a \ji "3u5" c \ji "" e \ji "u7" g \ji "" b \ji "11" d \ji "3 u13" f \ji "u17" a>
+    }
+  }
+}
+```
+
+<img src="media/8.png" height="200">
+
+This restriction, as well as an ability to have more fine-grained control over natural accidental printing, will be addressed in the future (it's doable, but not quite as simple as it seems).
+
+### Playback
+Playback is only supported up to 16 simulatenous notes due to a limitation of MIDI. In order to support playback each note needs to be in its own channel and MIDI unfortunately only supports 16.
+
+To render the previous example to a midi file we set the `render-midi` option to `#t`:
+
+```lilypond
+render-midi = ##t
+
+\HejiScore {
+  \HejiStaff {
+    \set Staff.midiInstrument = "clarinet"
+
+    \relative a {
+      <a \ji "3u5" c e \ji "u7" g b \ji "11" d \ji "3 u13" f \ji "u17" a>1
+    }
+  }
+}
+```
+
+[listen](media/test.wav)
 
 ## Options
 
+Options are set by assigning a value to variables, e.g.:
+
+```lilypond
+render-midi = ##t
+```
+
+Currently supported options:
 - `heji-font` = <string> - Filename of the HEJI2 font on your system, excluding the file extension. Default: `"HEJI2"` 
-- `warn-on-empty-factors` = Whether to issue a warning when no factors are supplied to the `\ji` function. Default: `#f` because currently chords require you to list the factors of all chord notes in order and will therefore cause spurious warnings.
+- `warn-on-empty-factors` = Whether to issue a warning when no factors are supplied to the `\ji` function. Default: `#t` 
 - `skip-validation` - Whether to skip validation of factors. Normally, factors are checked to make sure that only prime number factors appear in the list and that the exponents do not exceed the maximum supported value. Only set to `#t` if you're generating LilyPond code and can guarantee the factors are legal and want to squeeze some extra performance. Default: `#f`
 - `warn-on-ill-formed-factor-string` - The factor parser is extremely lenient; it will ignore any unexpected characters and continue parsing. Set to #t if you wish to be warned about these unexpected characters. 
 - `render-midi` - Set to `#t` if you want a rendered MIDI file. No need for `\midi {}` blocks, just set to `#t` and LilyPond will produce a MIDI file as well as a PDF score. Default: `#f`
 - `reference-pitch` - The reference pitch to use (only affects MIDI playback). Default: `5` (A)
+- `print-naturals` - Whether to print natural accidentals. Currently a binary choice that applies to the whole file. Default: `#t` 

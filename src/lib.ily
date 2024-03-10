@@ -59,8 +59,8 @@ normalize-factors = #(define-scheme-function (factors)
 % Precondition: Factors is a possibly empty list of pairs (x . y)
 % Postcondition: The returned list is a list of code points corresponding to the accidentals described by the input list
 %		 in _descending_ order
-parse-heji = #(define-scheme-function (factors skip-validation)
-                (list? boolean?)
+parse-heji = #(define-scheme-function (factors)
+                (list?)
                 (define (factor-gt fe1 fe2) (> (car fe1) (car fe2)))
                 (if (not skip-validation) (for-each validate factors))
                 (let* ((sorted-factors (sort factors factor-gt))
@@ -68,7 +68,8 @@ parse-heji = #(define-scheme-function (factors skip-validation)
                                              (if (nil? normalized)
                                                  (begin
                                                   (if warn-on-empty-factors
-                                                      (ly:warning "Interpreting empty factor list as natural accidental")) '((3 . 0)))
+                                                      (ly:warning "Interpreting empty factor list as natural accidental"))
+                                                  (if print-naturals '((3 . 0)) '()))
                                                  normalized)))
                        (indices (map
                                  (lambda (factor-exponent)

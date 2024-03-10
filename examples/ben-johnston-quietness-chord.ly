@@ -5,7 +5,6 @@
 render-midi = ##t
 
 \HejiScore {
-  %\displayMusic
   <<
     \HejiStaff {
       \set Staff.midiInstrument = "reed organ"
