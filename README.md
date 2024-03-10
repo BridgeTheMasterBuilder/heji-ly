@@ -263,7 +263,9 @@ render-midi = ##t
 }
 ```
 
-https://github.com/BridgeTheMasterBuilder/heji-ly/assets/71600489/899a95ab-adb3-432d-8c1c-b6d81aa0de74
+
+https://github.com/BridgeTheMasterBuilder/heji-ly/assets/71600489/86f3f603-cfbc-42d4-8eeb-e2d53fe83a9a
+
 
 ## Options
 
