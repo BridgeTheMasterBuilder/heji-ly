@@ -3,6 +3,19 @@
 
 This [LilyPond](https://lilypond.org/index.html) package implements support for the [Helmholtz-Ellis Just Intonation](https://masa.plainsound.org/pdfs/notation.pdf) notation system. All standard accidentals (47-limit as of the time of writing) are supported and they can be combined in arbitrary ways through a general interface.
 
+## Table of Contents
+<!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
+
+- [Dependencies](#dependencies)
+- [Usage](#usage)
+   * [HEJI scores and staves](#heji-scores-and-staves)
+   * [The \ji function](#the-ji-function)
+   * [Chords](#chords)
+   * [Playback](#playback)
+- [Options](#options)
+
+<!-- TOC end -->
+
 ## Dependencies
 The *HEJI2* font must be installed, which can be downloaded from [https://www.plainsound.org/](https://www.plainsound.org/). After downloading, just place it wherever LilyPond expects to find fonts on your system.
 
