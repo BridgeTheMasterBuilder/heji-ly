@@ -6,13 +6,15 @@ This [LilyPond](https://lilypond.org/index.html) package implements support for 
 ## Table of Contents
 <!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
 
-- [Dependencies](#dependencies)
-- [Usage](#usage)
-   * [HEJI scores and staves](#heji-scores-and-staves)
-   * [The \ji function](#the-ji-function)
-   * [Chords](#chords)
-   * [Playback](#playback)
-- [Options](#options)
+- [heji-ly](#heji-ly)
+  - [Table of Contents](#table-of-contents)
+  - [Dependencies](#dependencies)
+  - [Usage](#usage)
+    - [HEJI scores and staves](#heji-scores-and-staves)
+    - [The \\ji function](#the-ji-function)
+    - [Chords](#chords)
+    - [Playback](#playback)
+  - [Options](#options)
 
 <!-- TOC end -->
 
@@ -279,6 +281,13 @@ render-midi = ##t
 
 https://github.com/BridgeTheMasterBuilder/heji-ly/assets/71600489/86f3f603-cfbc-42d4-8eeb-e2d53fe83a9a
 
+Note that you will get a lot of warnings that look like this:
+
+```
+warning: no glyph name for alteration -161682773251253/232646963791656 in alteration-glyph-name-alist; try defining one in alterationGlyphs
+```
+
+These are harmless and can be ignored. Unfortunately, there doesn't seem to be a good way to silence them warnings at the moment.
 
 ## Options
 
