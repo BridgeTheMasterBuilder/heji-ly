@@ -255,7 +255,7 @@ Note that these are not fully equivalent as evidenced by the difference in outpu
 
 The reason why this works is because the only thing that matters with regards to calculating the accidental and the tuning in the playback are the factors, the note name is irrelevant beyond specifying where the note should be placed in the staff.
 
-Please open an issue if these restrictions seem unreasonable (lifting them to doable but not a high priority at the moment).
+Please open an issue if these restrictions seem unreasonable (lifting them is doable but not a high priority at the moment).
 
 ### Playback
 Playback is only supported up to 16 simulatenous notes due to a limitation of MIDI. In order to support playback each note needs to be in its own channel and MIDI unfortunately only supports 16.
