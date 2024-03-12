@@ -28,41 +28,7 @@ To use this package in your project simply include the line
 \include "/path/to/heji.ily"
 ```
 ### HEJI scores and staves
-Music that uses HEJI accidentals should be placed in a `\HejiScore` block instead of a `\score` context, which is necessary for LilyPond to properly render the score to a MIDI file when the `render-midi` option is set (see [Options](#options)). Inside of `\HejiScore` blocks use `\HejiStaff` instead of `\new Staff` to ensure that accidentals are always printed properly:
-
-```lilypond
-\version "2.24.1"
-
-\include "heji.ily"
-
-\HejiScore {
-  \HejiStaff {
-    \relative a {
-      \ji"5"a
-    }
-  }
-}
-```
-
-<img src="media/1.png" height="200">
-
-compare to:
-
-```lilypond
-\version "2.24.1"
-
-\include "heji.ily"
-
-\HejiScore {
-  \new Staff {
-    \relative a {
-      \ji"5"a
-    }
-  }
-}
-```
-
-<img src="media/2.png" height="200">
+Music that uses HEJI accidentals should be placed in a `\HejiScore` block instead of a `\score` context, and inside these blocks use `\HejiStaff` instead of `\new Staff`. Currently, their only purpose is to ensure LilyPond properly renders the score to a MIDI file when the `render-midi` option is set (see [Options](#options)), but do not rely on this as it may be necessary to expand their function in the future.  
 
 ### The \ji function
 HEJI accidentals can be added to a note by writing `\ji <factor string> <note>`
