@@ -60,8 +60,8 @@ pythagorean-alteration = #(define-scheme-function (note reference-pitch)
                               (interval-to-alteration difference)))
 
 % TODO Get rid of spurious missing glyph warnings
-tune-pitches = #(define-scheme-function (music interval reference-pitch)
-                  (ly:music? rational? number?)
+tune-pitches = #(define-scheme-function (music interval reference-pitch render)
+                  (ly:music? rational? number? boolean?)
                   ; We are going to get a ton of warnings because the alterations do not have
                   ; corresponding glyphs, but it doesn't matter since we are inserting the
                   ; glyphs manually using markup
@@ -73,7 +73,9 @@ tune-pitches = #(define-scheme-function (music interval reference-pitch)
                                             (ly:make-pitch
                                              octave
                                              notename
-                                             (+ base-alteration (if (= interval 1/1) alteration (interval-to-alteration interval))))))))
+                                             (if (and (= interval 1/1) (not render))
+                                                 alteration
+                                                 (+ base-alteration (interval-to-alteration interval))))))))
 
 % LilyPond currently does not support microtonal playback for chords, so to achieve that we must split up chords
 % into separate voices

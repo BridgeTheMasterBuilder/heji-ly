@@ -7,7 +7,7 @@ render-midi = ##t
 % The harmonic series up to the 49th partial in chords of four adjacent harmonics
 \HejiScore {
   \HejiStaff {
-    \set Staff.midiInstrument = "reed organ"
+    \set Staff.midiInstrument = "clarinet"
 
     \tempo 4=40
 
