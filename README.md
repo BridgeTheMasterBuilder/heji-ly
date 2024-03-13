@@ -244,7 +244,7 @@ render-midi = ##t
 }
 ```
 
-https://github.com/BridgeTheMasterBuilder/heji-ly/assets/71600489/a2ffd822-0a7d-4616-a549-e9c5f8e746b5
+https://github.com/BridgeTheMasterBuilder/heji-ly/assets/71600489/05eacfed-58d7-4f15-affb-e1f08372d611
 
 Note that you will get a lot of warnings that look like this:
 
