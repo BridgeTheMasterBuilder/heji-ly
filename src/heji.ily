@@ -20,9 +20,16 @@ HejiScore =
    (if render-midi
        (let* ((copy (ly:music-deep-copy music))
               (expanded (music-map (lambda (music)
-                                     (if (equal? (ly:music-property music 'name) 'EventChord)
-                                         (expand-chord music)
-                                         music))
+                                     (cond ((equal? (ly:music-property music 'name) 'EventChord)
+                                            (expand-chord music))
+                                           ((equal? (ly:music-property music 'name) 'NoteEvent)
+                                            (let ((pitch (ly:music-property music 'pitch)))
+                                              (if (= (ly:pitch-alteration pitch) 0)
+                                                  (let ((factor-list (parse-heji-string "3^0")))
+                                                    (tune-pitches music (factors-to-interval factor-list) reference-pitch render-midi)
+                                                    music))
+                                              music))
+                                           (else music)))
                                    copy))
               (main-score
                #{
@@ -61,16 +68,6 @@ HejiScore =
 HejiStaff =
 #(define-music-function (music)
    (ly:music?)
-   ; TODO find a better way to tune naturals. Maybe instead of tuning the notes in `ji` it would be better to do one sweep
-   ; and figure out the tuning from the accidental code point(s)?
-   (for-some-music (lambda (note)
-                     (if (equal? (ly:music-property note 'name) 'NoteEvent)
-                         (let ((pitch (ly:music-property note 'pitch)))
-                           (if (= (ly:pitch-alteration pitch) 0)
-                               (ji "3^0" note)
-                               )))
-                     #f)
-                   music)
    #{
      \new Staff
      {
