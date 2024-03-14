@@ -87,7 +87,7 @@ Accidentals can be combined in arbitrary ways:
 }
 ```
 
-<img src="media/3.png" height="200">
+<img src="media/1.png" height="200">
 
 The order of factors does not matter:
 
@@ -105,7 +105,7 @@ The order of factors does not matter:
 }
 ```
 
-<img src="media/4.png" height="200">
+<img src="media/2.png" height="200">
 
 ```lilypond
 \version "2.24.1"
@@ -121,7 +121,7 @@ The order of factors does not matter:
 }
 ```
 
-<img src="media/5.png" height="200">
+<img src="media/3.png" height="200">
 
 If there are repeated factors the exponents will be summed up:
 
@@ -139,7 +139,7 @@ If there are repeated factors the exponents will be summed up:
 }
 ```
 
-<img src="media/6.png" height="200">
+<img src="media/4.png" height="200">
 
 ### Chords
 Chords can be input in exactly the same way:
@@ -158,72 +158,7 @@ Chords can be input in exactly the same way:
 }
 ```
 
-<img src="media/7.png" height="200">
-
-Natural accidentals can be omitted by setting the `print-naturals` option. Unfortunately, this requires specifying factors for all notes in the file, even if they are empty:
-
-```lilypond
-\version "2.24.1"
-
-\include "heji.ily"
-
-print-naturals = ##f
-
-\HejiScore {
-  \HejiStaff {
-    \relative a {
-      <\ji""a \ji"3u5"c \ji""e \ji"u7"g \ji""b \ji"11"d \ji"3 u13"f \ji"3u17"a>
-    }
-  }
-}
-```
-
-<img src="media/8.png" height="200">
-
-Another option is to use sharpened/flattened note names for the notes with HEJI accidentals and set the accidental style manually, e.g.:
-
-```lilypond
-\version "2.24.1"
-
-\include "heji.ily"
-
-\HejiScore {
-  \HejiStaff {
-    \relative a {
-      \accidentalStyle forget
-      <a \ji"3u5"cis e \ji"u7"ges b \ji"11"dis \ji"3 u13"fis \ji"3u17"ais>1
-    }
-  }
-}
-```
-
-<img src="media/9.png" height="200">
-
-It's also possible to selectively omit accidentals:
-
-```lilypond
-\version "2.24.1"
-
-\include "heji-ly/src/heji.ily"
-
-render-midi = ##t
-
-\HejiScore {
-  \HejiStaff {
-    \relative a {
-      \once\omit Accidental <a \ji"3u5"cis e \ji"u7"ges b \ji"11"dis \ji"3 u13"fis \ji"3u17"ais>
-    }
-  }
-}
-```
-
-<img src="media/10.png" height="200">
-
-Note that these are not fully equivalent as evidenced by the difference in output.
-
-The reason why this works is because the only thing that matters with regards to calculating the accidental and the tuning in the playback are the factors, the note name is irrelevant beyond specifying where the note should be placed in the staff.
-
-Please open an issue if these restrictions seem unreasonable (lifting them is doable but not a high priority at the moment).
+<img src="media/5.png" height="200">
 
 ### Playback
 Playback is only supported up to 16 simulatenous notes due to a limitation of MIDI. In order to support playback each note needs to be in its own channel and MIDI unfortunately only supports 16.
@@ -269,4 +204,3 @@ Currently supported options:
 - `warn-on-ill-formed-factor-string` - The factor parser is extremely lenient; it will ignore any unexpected characters and continue parsing. Set to #t if you wish to be warned about these unexpected characters.
 - `render-midi` - Set to `#t` if you want a rendered MIDI file. No need for `\midi {}` blocks, just set to `#t` and LilyPond will produce a MIDI file as well as a PDF score. Default: `#f`
 - `reference-pitch` - The reference pitch to use (only affects MIDI playback). Default: `5` (A)
-- `print-naturals` - Whether to print natural accidentals. Currently a binary choice that applies to the whole file. Default: `#t`
