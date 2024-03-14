@@ -2,12 +2,13 @@
 
 \include "../src/heji.ily"
 
-render-midi = ##t
+% Uncomment to produce a MIDI file
+%render-midi = ##t
 
 \HejiScore {
   <<
     \HejiStaff {
-      \set Staff.midiInstrument = "violin"
+      \set Staff.midiInstrument = "trombone"
 
       \relative a' {
         \clef treble
@@ -17,7 +18,7 @@ render-midi = ##t
     }
 
     \HejiStaff {
-      \set Staff.midiInstrument = "violin"
+      \set Staff.midiInstrument = "trombone"
 
       \relative a' {
         \clef treble
@@ -27,7 +28,7 @@ render-midi = ##t
     }
 
     \HejiStaff {
-      \set Staff.midiInstrument = "viola"
+      \set Staff.midiInstrument = "trombone"
 
       \relative a, {
         \clef alto
@@ -36,7 +37,7 @@ render-midi = ##t
     }
 
     \HejiStaff {
-      \set Staff.midiInstrument = "cello"
+      \set Staff.midiInstrument = "trombone"
 
       \relative a, {
         \clef bass

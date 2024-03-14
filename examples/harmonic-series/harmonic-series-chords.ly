@@ -2,12 +2,13 @@
 
 \include "../../src/heji.ily"
 
-render-midi = ##t
+% Uncomment to produce a MIDI file
+%render-midi = ##t
 
 % The harmonic series up to the 49th partial in chords of four adjacent harmonics
 \HejiScore {
   \HejiStaff {
-    \set Staff.midiInstrument = "clarinet"
+    \set Staff.midiInstrument = "trombone"
 
     \tempo 4=40
 

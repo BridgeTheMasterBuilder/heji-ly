@@ -2,7 +2,8 @@
 
 \include "../../src/heji.ily"
 
-render-midi = ##t
+% Uncomment to produce a MIDI file
+%render-midi = ##t
 
 % The harmonic series up to the 49th partial in a unison canon
 \HejiScore {
