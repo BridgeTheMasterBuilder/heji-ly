@@ -1,10 +1,7 @@
 \version "2.24.1"
 
-\include "util.ily"
-\include "accidentals.ily"
-\include "lib.ily"
-\include "parser.ily"
-\include "midi.ily"
+#(add-to-load-path (dirname (current-filename)))
+#(use-modules (lib) (util) (midi) (parser))
 
 heji-font = #(set-if-unset 'heji-font "HEJI2")
 warn-on-empty-factors = #(set-if-unset 'warn-on-empty-factors #t)
@@ -82,7 +79,7 @@ HejiStaff =
           (map
            (lambda (point-code)
              `(markup (#:override `(font-name . ,heji-font) #:fontsize 5 #:char ,point-code)))
-           (parse-heji factors)))
+           (parse-heji factors skip-validation)))
          (markup-cmd `(make-concat-markup (list ,@accidentals (markup #:hspace -1)))))
     (interpret-markup layout props
                       (eval markup-cmd (current-module)))))
