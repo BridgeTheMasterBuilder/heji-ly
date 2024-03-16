@@ -1,7 +1,6 @@
 \version "2.24.1"
 
-lex-number = #(define-scheme-function (input output factor k)
-                (string? list? pair? procedure?)
+#(define (lex-number input output factor k)
                 (let*
                  (
                    ; Index of the first non-numeric character following some string of digits,
@@ -11,8 +10,7 @@ lex-number = #(define-scheme-function (input output factor k)
                    (rest (substring input i)))
                  (k rest output factor n)))
 
-lex-factor = #(define-scheme-function (input output factor k)
-                (string? list? pair? procedure?)
+#(define (lex-factor input output factor k)
                 (lex-number input
                             output
                             factor
@@ -21,8 +19,7 @@ lex-factor = #(define-scheme-function (input output factor k)
                              (let ((e (cdr factor)))
                                (k input output (cons n e) lex-factor)))))
 
-lex-exponent = #(define-scheme-function (input output factor k)
-                  (string? list? pair? procedure?)
+#(define (lex-exponent input output factor k)
                   (lex-number input
                               output
                               factor
@@ -39,8 +36,7 @@ lex-exponent = #(define-scheme-function (input output factor k)
 %	  after zero or more arbitrary characters
 % Postcondition: A list of pairs (x . y) corresponding to the input string, possibly augmented with some
 % 		 dummy elements which will be removed in a later pass.
-lex = #(define-scheme-function (input output factor k)
-         (string? list? pair? procedure?)
+#(define (lex input output factor k)
          (if (string-null? input)
              (cons factor output)
              (let ((char (string-ref input 0))
@@ -56,6 +52,5 @@ lex = #(define-scheme-function (input output factor k)
                           (ly:warning (format #f "Ignoring spurious character ~c" char)))
                       (lex rest output factor k))))))
 
-parse-heji-string = #(define-scheme-function (factors)
-                       (string?)
+#(define (parse-heji-string factors)
                        (lex factors '() '(0 . 1) lex-factor))

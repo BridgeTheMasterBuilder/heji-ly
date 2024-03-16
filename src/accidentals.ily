@@ -1,8 +1,7 @@
 \version "2.24.1"
 
-hash = #(define-scheme-function (factor exponent)
-          (number? number?)
-          (* factor exponent))
+#(define (hash factor exponent)
+   (* factor exponent))
 
 % Here's an explanation of why `low-primes` and `prime` are necessary:
 % Seeing as Helmholtz-Ellis notation combines "classical" accidentals
@@ -42,14 +41,13 @@ hash = #(define-scheme-function (factor exponent)
 % It might be worth the effort to future-proof this scheme but this seems adequate
 % for the time being.
 
-low-primes = #'(7 11 13 17 19)
+#(define low-primes '(7 11 13 17 19))
 
-prime = #(define-scheme-function (i)
-           (number?)
-           (list-ref low-primes i))
+#(define (prime i)
+   (list-ref low-primes i))
 
 % TODO - Precompute this table?
-accidental-map = #`((,(hash 3 0) . #x6e)
+#(define accidental-map `((,(hash 3 0) . #x6e)
                     (,(hash 3 1) . #x76)
                     (,(hash 3 2) . #x56)
                     (,(hash 3 -1) . #x65)
@@ -119,4 +117,4 @@ accidental-map = #`((,(hash 3 0) . #x6e)
                     (,(hash 43 1) . #xe9)
                     (,(hash 43 -1) . #xe8)
                     (,(hash 47 1) . #xed)
-                    (,(hash 47 -1) . #xec))
+                    (,(hash 47 -1) . #xec)))

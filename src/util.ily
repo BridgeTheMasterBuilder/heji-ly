@@ -1,12 +1,10 @@
 \version "2.24.1"
 
-set-if-unset = #(define-scheme-function (sym val)
-                  (symbol? scheme?)
+#(define (set-if-unset sym val)
                   (if (null? (ly:parser-lookup sym)) val (eval sym (current-module))))
 
 % TODO - Replace with more efficient primality test?
-prime-p = #(define-scheme-function (n)
-             (number?)
+#(define (prime-p n)
              (define (aux k)
                (cond ((> (* k k) n) #t)
                      ((= (modulo n k) 0) #f)
@@ -15,10 +13,8 @@ prime-p = #(define-scheme-function (n)
                  #f
                  (aux 2)))
 
-ignore = #(define-scheme-function (msg x)
-            (string? scheme?)
+#(define (ignore msg x)
             (begin (ly:warning msg) x))
 
-log-b = #(define-scheme-function (b x)
-           (number? number?)
+#(define (log-b b x)
            (/ (log10 x) (log10 b)))
