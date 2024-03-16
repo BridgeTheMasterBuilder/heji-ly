@@ -4,7 +4,7 @@
 \include "swing.ly"
 
 % Uncomment to produce a MIDI file
-%render-midi = ##t
+%heji-ly-render-midi = ##t
 
 \header {
   title =  "Kentucky Babe"

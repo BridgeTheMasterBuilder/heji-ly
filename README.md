@@ -28,7 +28,7 @@ To use this package in your project simply include the line
 \include "/path/to/heji.ily"
 ```
 ### HEJI scores and staves
-Music that uses HEJI accidentals should be placed in a `\HejiScore` block instead of a `\score` context, and inside these blocks use `\HejiStaff` instead of `\new Staff`. Currently, their only purpose is to ensure LilyPond properly renders the score to a MIDI file when the `render-midi` option is set (see [Options](#options)), but do not rely on this as it may be necessary to expand their function in the future.  
+Music that uses HEJI accidentals should be placed in a `\HejiScore` block instead of a `\score` context, and inside these blocks use `\HejiStaff` instead of `\new Staff`. Currently, their only purpose is to ensure LilyPond properly renders the score to a MIDI file when the `heji-ly-render-midi` option is set (see [Options](#options)), but do not rely on this as it may be necessary to expand their function in the future.  
 
 ### The \ji function
 HEJI accidentals can be added to a note by writing `\ji <factor string> <note>`
@@ -163,10 +163,10 @@ Chords can be input in exactly the same way:
 ### Playback
 Playback is only supported up to 16 simulatenous notes due to a limitation of MIDI. In order to support playback each note needs to be in its own channel and MIDI unfortunately only supports 16.
 
-To render the previous example to a midi file we set the `render-midi` option to `#t`:
+To render the previous example to a midi file we set the `heji-ly-render-midi` option to `#t`:
 
 ```lilypond
-render-midi = ##t
+heji-ly-render-midi = ##t
 
 \HejiScore {
   \HejiStaff {
@@ -194,13 +194,13 @@ These are harmless and can be ignored. Unfortunately, there doesn't seem to be a
 Options are set by assigning a value to variables, e.g.:
 
 ```lilypond
-render-midi = ##t
+heji-ly-render-midi = ##t
 ```
 
 Currently supported options:
-- `heji-font` = <string> - Filename of the HEJI2 font on your system, excluding the file extension. Default: `"HEJI2"`
-- `warn-on-empty-factors` = Whether to issue a warning when no factors are supplied to the `\ji` function. Default: `#t`
-- `skip-validation` - Whether to skip validation of factors. Normally, factors are checked to make sure that only prime number factors appear in the list and that the exponents do not exceed the maximum supported value. Only set to `#t` if you're generating LilyPond code and can guarantee the factors are legal and want to squeeze some extra performance. Default: `#f`
-- `warn-on-ill-formed-factor-string` - The factor parser is extremely lenient; it will ignore any unexpected characters and continue parsing. Set to #t if you wish to be warned about these unexpected characters.
-- `render-midi` - Set to `#t` if you want a rendered MIDI file. No need for `\midi {}` blocks, just set to `#t` and LilyPond will produce a MIDI file as well as a PDF score. Default: `#f`
-- `reference-pitch` - The reference pitch to use (only affects MIDI playback). Default: `5` (A)
+- `heji-ly-heji-font` = <string> - Filename of the HEJI2 font on your system, excluding the file extension. Default: `"HEJI2"`
+- `heji-ly-warn-on-empty-factors` = Whether to issue a warning when no factors are supplied to the `\ji` function. Default: `#t`
+- `heji-ly-skip-validation` - Whether to skip validation of factors. Normally, factors are checked to make sure that only prime number factors appear in the list and that the exponents do not exceed the maximum supported value. Only set to `#t` if you're generating LilyPond code and can guarantee the factors are legal and want to squeeze some extra performance. Default: `#f`
+- `heji-ly-warn-on-ill-formed-factor-string` - The factor parser is extremely lenient; it will ignore any unexpected characters and continue parsing. Set to #t if you wish to be warned about these unexpected characters.
+- `heji-ly-render-midi` - Set to `#t` if you want a rendered MIDI file. No need for `\midi {}` blocks, just set to `#t` and LilyPond will produce a MIDI file as well as a PDF score. Default: `#f`
+- `heji-ly-reference-pitch` - The reference pitch to use (only affects MIDI playback). Default: `5` (A)

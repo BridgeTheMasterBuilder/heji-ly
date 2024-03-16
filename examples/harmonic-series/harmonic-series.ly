@@ -3,7 +3,7 @@
 \include "../../src/heji.ily"
 
 % Uncomment to produce a MIDI file
-%render-midi = ##t
+%heji-ly-render-midi = ##t
 
 % The harmonic series up to the 49th partial
 \HejiScore {

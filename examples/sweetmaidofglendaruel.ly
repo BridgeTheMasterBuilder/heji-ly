@@ -16,7 +16,7 @@ pad-x = #(define-scheme-function (offset)
 }
 
 % Uncomment to produce a MIDI file
-%render-midi = ##t
+%heji-ly-render-midi = ##t
 
 \score {
   \new Staff {
