@@ -64,8 +64,8 @@
   (if (and (nil? factors) warn-on-empty-factors) (ly:warning "Interpreting empty factor list as natural accidental"))
   (let* ((sorted-factors (sort factors factor-gt))
          (normalized-factors (let ((normalized (normalize-factors sorted-factors)))
-                               (if (nil? normalized)
-                                   (if print-naturals '((3 . 0)) '()))
+                               ;; (if (nil? normalized)
+                               ;;     (if print-naturals '((3 . 0)) '()))
                                normalized))
          (indices (map
                    (lambda (factor-exponent)

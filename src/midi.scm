@@ -1,8 +1,8 @@
 (define-module (midi)
-  :export (tune-pitches factors-to-interval))
+  :export (tune-pitches factors-to-interval expand-chord))
 
 (add-to-load-path (dirname (current-filename)))
-(use-modules (util) (lily))
+(use-modules (util) (lily) (srfi srfi-1))
 
 (define comma-map '((3 . 2187/2048)
                     (5 . 81/80)

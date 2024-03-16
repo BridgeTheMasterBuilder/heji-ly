@@ -181,5 +181,5 @@ pad-x = #(define-scheme-function (offset)
     }
   >>
 
-  #(if render-midi #{ \midi { } #})
+  #(if heji-ly-render-midi #{ \midi { } #})
 }
