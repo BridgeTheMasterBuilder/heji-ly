@@ -43,11 +43,6 @@
             (cond ((= f1 f2)
                    (normalize-factors (cons (cons f1 (+ e1 e2)) (cdr rest))))
                   ((and (not (= f2 3)) (= e2 0)) (normalize-factors (cons this-factor (cdr rest))))
-                  ;; TODO This is only necessary if the input list can be unsorted
-                  ;;((and (= f1 3) (= f2 5))
-                  ;; (cons (cons (* 5 (prime (+ e1 2)))
-                  ;;             e2)
-                  ;;       (normalize-factors (cdr rest))))
                   ((and (= f1 5) (= f2 3))
                    (cons (cons (* 5 (prime (+ e2 2)))
                                e1)

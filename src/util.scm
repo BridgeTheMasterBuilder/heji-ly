@@ -1,5 +1,5 @@
 (define-module (util)
-  :export (set-if-unset prime-p ignore log-b))
+  :export (set-if-unset prime-p log-b))
 
 (use-modules (lily))
 
@@ -15,9 +15,6 @@
   (if (<= n 1)
       #f
       (aux 2)))
-
-(define (ignore msg x)
-  (begin (ly:warning msg) x))
 
 (define (log-b b x)
   (/ (log10 x) (log10 b)))

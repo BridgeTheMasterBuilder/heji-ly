@@ -47,7 +47,6 @@
 (define (prime i)
   (list-ref low-primes i))
 
-;; TODO - Precompute this table?
 (define accidental-map `((,(hash-factor 3 0) . #x6e)
                          (,(hash-factor 3 1) . #x76)
                          (,(hash-factor 3 2) . #x56)

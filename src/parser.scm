@@ -59,9 +59,9 @@
               (else
                ;; TODO should probably accept a boolean parameter instead but that is a bit of an intrusive change
                (if (ly:parser-lookup 'heji-ly-warn-on-ill-formed-factor-string)
-                   (ly:warning (format #f "Ignoring spurious character ~c" char)))
+                   (ly:input-warning (*location*) (format #f "Ignoring spurious character ~c" char)))
                (lex rest output k))))))
 
 (define (parse-heji-string factors warn-on-empty-factors)
-  (if (and (string-null? factors) warn-on-empty-factors) (ly:warning "Interpreting empty factor list as natural accidental"))
+  (if (and (string-null? factors) warn-on-empty-factors) (ly:input-warning (*location*) "Interpreting empty factor list as natural accidental"))
   (lex factors '((0 . 1)) lex-factor))

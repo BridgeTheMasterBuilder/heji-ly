@@ -9,16 +9,17 @@ heji-ly-skip-validation = #(set-if-unset 'heji-ly-skip-validation #f)
 heji-ly-warn-on-ill-formed-factor-string = #(set-if-unset 'heji-ly-warn-on-ill-formed-factor-string #t)
 heji-ly-render-midi = #(set-if-unset 'heji-ly-render-midi #f)
 heji-ly-reference-pitch = #(set-if-unset 'heji-ly-reference-pitch 5)
-heji-ly-print-naturals = #(set-if-unset 'heji-ly-print-naturals #t)
 
 HejiScore =
 #(define-void-function (music)
    (ly:music?)
    (if heji-ly-render-midi
        (let* ((copy (ly:music-deep-copy music))
+              ;; See midi.scm
               (expanded (music-map (lambda (music)
                                      (cond ((equal? (ly:music-property music 'name) 'EventChord)
                                             (expand-chord music))
+                                           ;; This is in order to correctly tune pitches not passed to the \ji function
                                            ((equal? (ly:music-property music 'name) 'NoteEvent)
                                             (let ((pitch (ly:music-property music 'pitch)))
                                               (if (= (ly:pitch-alteration pitch) 0)
@@ -66,7 +67,7 @@ HejiStaff =
 #(define-music-function (music)
    (ly:music?)
    #{
-     \new Staff
+     \new Staff \with { alterationGlyphs = #alteration-heji-glyph-name-alist }
      {
        #music
      }
@@ -88,7 +89,7 @@ ji =
 #(define-music-function (factors note)
    (string? ly:music?)
    (if (not (eq? (ly:music-property note 'name) 'NoteEvent))
-       (ly:parser-error "Expected note"))
+       (ly:input-message (*location*) "Expected note"))
    (let* ((factor-list (parse-heji-string factors heji-ly-warn-on-empty-factors))
           (accidentals #{\markup\heji-markup #factor-list #}))
      (tune-pitches note (factors-to-interval factor-list) heji-ly-reference-pitch heji-ly-render-midi)

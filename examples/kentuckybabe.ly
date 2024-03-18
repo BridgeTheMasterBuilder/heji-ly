@@ -151,7 +151,7 @@ Bari =  \relative bes {
 
 Bass =  \relative bes, {
   \clef "bass"
-  \ji""b8 \ji"u3"b8 \ji"u3"b8 \ji"u3"b8
+  \ji"u3"b8 \ji"u3"b8 \ji"u3"b8 \ji"u3"b8
   \ji"u5"g8 \ji"u5"g8 \ji"u5"g8 \ji"u5"g8 |
   \ji"u3"b8 \ji"u3"b8 \ji"u3"b8 \ji"u3"b8 \ji"u5"g2 |
   \ji"u3"b4. \ji"u3"b8 \ji"u3"b8 \ji"u3"b4. |

@@ -1,5 +1,5 @@
 (define-module (midi)
-  :export (tune-pitches factors-to-interval expand-chord))
+  :export (tune-pitches factors-to-interval expand-chord alteration-heji-glyph-name-alist))
 
 (add-to-load-path (dirname (current-filename)))
 (use-modules (util) (lily) (srfi srfi-1))
@@ -21,6 +21,7 @@
 
 (define diatonic-pythagorean-scale #(1/1 9/8 32/27 4/3 3/2 128/81 16/9))
 (define equal-tempered-intervals #(0 2 3 5 7 8 10))
+(define alteration-heji-glyph-name-alist '((0 . "accidentals.natural")))
 
 ;; Precondition: Factors is a possibly empty list of pairs (x . y)
 ;; Postcondition: The returned list is the product ∏x'_i^(y_i) for (x_i . y_i) ∈ factors
@@ -45,6 +46,7 @@
   (define epsilon 1/1000000000000000)
   (rationalize (inexact->exact (log-b (expt 2 (/ 2 12)) interval)) epsilon))
 
+;; Precondition: note and reference-pitch are integers between 0 and 6 inclusive
 ;; Postcondition: The returned value is the number of equal tempered whole tones (see above comment)
 ;;                that comprise the difference between the Pythagorean interval (formed by the input note and the
 ;;                reference pitch (by default, A)) and the corresponding equal tempered interval
@@ -58,11 +60,7 @@
          (difference (/ pythagorean-interval et-interval)))
     (interval-to-alteration difference)))
 
-;; TODO Get rid of spurious missing glyph warnings
 (define (tune-pitches music interval reference-pitch render)
-  ;; We are going to get a ton of warnings because the alterations do not have
-  ;; corresponding glyphs, but it doesn't matter since we are inserting the
-  ;; glyphs manually using markup
   (change-pitches music (lambda (pitch)
                           (let* ((octave (ly:pitch-octave pitch))
                                  (notename (ly:pitch-notename pitch))
@@ -71,6 +69,11 @@
                                  (new-alteration (if (and (= interval 1/1) (not render))
                                                      alteration
                                                      (+ base-alteration (interval-to-alteration interval)))))
+                            ;; TODO Kind of a hack to suppress missing glyph warnings
+                            (set! alteration-heji-glyph-name-alist
+                                  (assoc-set! alteration-heji-glyph-name-alist
+                                              new-alteration
+                                              "accidentals.natural"))
                             (ly:make-pitch
                              octave
                              notename
