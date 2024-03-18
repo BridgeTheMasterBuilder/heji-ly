@@ -67,13 +67,14 @@
                           (let* ((octave (ly:pitch-octave pitch))
                                  (notename (ly:pitch-notename pitch))
                                  (alteration (ly:pitch-alteration pitch))
-                                 (base-alteration (pythagorean-alteration notename reference-pitch)))
+                                 (base-alteration (pythagorean-alteration notename reference-pitch))
+                                 (new-alteration (if (and (= interval 1/1) (not render))
+                                                     alteration
+                                                     (+ base-alteration (interval-to-alteration interval)))))
                             (ly:make-pitch
                              octave
                              notename
-                             (if (and (= interval 1/1) (not render))
-                                 alteration
-                                 (+ base-alteration (interval-to-alteration interval))))))))
+                             new-alteration)))))
 
 ;; LilyPond currently does not support microtonal playback for chords, so to achieve that we must split up chords
 ;; into separate voices

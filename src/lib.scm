@@ -61,12 +61,8 @@
 (define (parse-heji factors skip-validation)
   (define (factor-gt fe1 fe2) (> (car fe1) (car fe2)))
   (if (not skip-validation) (for-each validate factors))
-  (if (and (nil? factors) warn-on-empty-factors) (ly:warning "Interpreting empty factor list as natural accidental"))
   (let* ((sorted-factors (sort factors factor-gt))
-         (normalized-factors (let ((normalized (normalize-factors sorted-factors)))
-                               ;; (if (nil? normalized)
-                               ;;     (if print-naturals '((3 . 0)) '()))
-                               normalized))
+         (normalized-factors (normalize-factors sorted-factors))
          (indices (map
                    (lambda (factor-exponent)
                      (hash-factor (car factor-exponent) (cdr factor-exponent)))

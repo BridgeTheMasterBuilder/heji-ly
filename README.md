@@ -187,7 +187,7 @@ Note that you will get a lot of warnings that look like this:
 warning: no glyph name for alteration -161682773251253/232646963791656 in alteration-glyph-name-alist; try defining one in alterationGlyphs
 ```
 
-These are harmless and can be ignored. Unfortunately, there doesn't seem to be a good way to silence them warnings at the moment.
+These are harmless and can be ignored. Unfortunately, there doesn't seem to be a good way to silence these warnings at the moment.
 
 ## Options
 

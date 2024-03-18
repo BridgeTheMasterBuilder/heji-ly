@@ -11,34 +11,34 @@
 
 (define (lex-number input output k)
   (let*
-      (
-       ;; Index of the first non-numeric character following some string of digits,
-       ;; or the end of the string if there is no such character
-       (i (or (string-skip input char-numeric?) (string-length input)))
-       (n (string->number (string-take input i)))
-       (rest (substring input i)))
-    (k rest output n)))
+   (
+     ;; Index of the first non-numeric character following some string of digits,
+     ;; or the end of the string if there is no such character
+     (i (or (string-skip input char-numeric?) (string-length input)))
+     (n (string->number (string-take input i)))
+     (rest (substring input i)))
+   (k rest output n)))
 
 (define (lex-factor input output k)
   (lex-number input
               output
               (lambda
-                  (input output n)
-                (let* ((factor (car output))
-                       (rest (cdr output))
-                       (e (cdr factor)))
-                  (k input (add-factor (cons n e) output)  lex-factor)))))
+               (input output n)
+               (let* ((factor (car output))
+                      (rest (cdr output))
+                      (e (cdr factor)))
+                 (k input (add-factor (cons n e) output)  lex-factor)))))
 
 (define (lex-exponent input output k)
   (lex-number input
               output
               (lambda
-                  (input output n)
-                (let* ((factor (car output))
-                       (rest (cdr output))
-                       (f (car factor))
-                       (e (cdr factor)))
-                  (k input (cons (cons f (* n e)) rest) lex-factor)))))
+               (input output n)
+               (let* ((factor (car output))
+                      (rest (cdr output))
+                      (f (car factor))
+                      (e (cdr factor)))
+                 (k input (cons (cons f (* n e)) rest) lex-factor)))))
 
 ;; Continuation-passing style lexical analyzer
 ;;
@@ -58,9 +58,10 @@
               ((char-numeric? char) (k input output lex))
               (else
                ;; TODO should probably accept a boolean parameter instead but that is a bit of an intrusive change
-               (if (ly:parser-lookup 'warn-on-ill-formed-factor-string)
+               (if (ly:parser-lookup 'heji-ly-warn-on-ill-formed-factor-string)
                    (ly:warning (format #f "Ignoring spurious character ~c" char)))
                (lex rest output k))))))
 
-(define (parse-heji-string factors)
+(define (parse-heji-string factors warn-on-empty-factors)
+  (if (and (string-null? factors) warn-on-empty-factors) (ly:warning "Interpreting empty factor list as natural accidental"))
   (lex factors '((0 . 1)) lex-factor))

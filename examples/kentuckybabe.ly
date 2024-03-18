@@ -151,7 +151,7 @@ Bari =  \relative bes {
 
 Bass =  \relative bes, {
   \clef "bass"
-  \ji"u3"b8 \ji"u3"b8 \ji"u3"b8 \ji"u3"b8
+  \ji""b8 \ji"u3"b8 \ji"u3"b8 \ji"u3"b8
   \ji"u5"g8 \ji"u5"g8 \ji"u5"g8 \ji"u5"g8 |
   \ji"u3"b8 \ji"u3"b8 \ji"u3"b8 \ji"u3"b8 \ji"u5"g2 |
   \ji"u3"b4. \ji"u3"b8 \ji"u3"b8 \ji"u3"b4. |
@@ -206,20 +206,16 @@ Bass =  \relative bes, {
         \set Staff.instrumentName = \markup { \center-column { \line {"Tenor"} \line {"Lead"} } }
         \set Staff.midiInstrument = "trombone"
 
-        \context Staff <<
-          \context Voice = "Tenor" { \tripletFeel 8 { \voiceOne \Tenor } }
-          \context Voice = "Lead" { \tripletFeel 8 { \voiceTwo \Lead } }
-        >>
+        \context Voice = "Tenor" { \tripletFeel 8 { \voiceOne \Tenor } }
+        \context Voice = "Lead" { \tripletFeel 8 { \voiceTwo \Lead } }
       >>
       \HejiStaff
       <<
         \set Staff.instrumentName = \markup { \center-column { \line {"Bari"} \line {"Bass"} } }
         \set Staff.midiInstrument = "trombone"
 
-        \context Staff <<
-          \context Voice = "Bari" { \tripletFeel 8 { \voiceOne \Bari } }
-          \context Voice = "Bass" { \tripletFeel 8 { \voiceTwo \Bass } }
-        >>
+        \context Voice = "Bari" { \tripletFeel 8 { \voiceOne \Bari } }
+        \context Voice = "Bass" { \tripletFeel 8 { \voiceTwo \Bass } }
       >>
     >>
   >>

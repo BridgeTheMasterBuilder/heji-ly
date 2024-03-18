@@ -22,7 +22,7 @@ HejiScore =
                                            ((equal? (ly:music-property music 'name) 'NoteEvent)
                                             (let ((pitch (ly:music-property music 'pitch)))
                                               (if (= (ly:pitch-alteration pitch) 0)
-                                                  (let ((factor-list (parse-heji-string "3^0")))
+                                                  (let ((factor-list (parse-heji-string "3^0" heji-ly-warn-on-ill-formed-factor-string)))
                                                     (tune-pitches music (factors-to-interval factor-list) heji-ly-reference-pitch heji-ly-render-midi)
                                                     music))
                                               music))
@@ -89,7 +89,7 @@ ji =
    (string? ly:music?)
    (if (not (eq? (ly:music-property note 'name) 'NoteEvent))
        (ly:parser-error "Expected note"))
-   (let* ((factor-list (parse-heji-string factors))
+   (let* ((factor-list (parse-heji-string factors heji-ly-warn-on-empty-factors))
           (accidentals #{\markup\heji-markup #factor-list #}))
      (tune-pitches note (factors-to-interval factor-list) heji-ly-reference-pitch heji-ly-render-midi)
      #{
