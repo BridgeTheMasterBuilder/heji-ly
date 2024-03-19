@@ -181,14 +181,6 @@ heji-ly-render-midi = ##t
 
 https://github.com/BridgeTheMasterBuilder/heji-ly/assets/71600489/05eacfed-58d7-4f15-affb-e1f08372d611
 
-Note that you will get a lot of warnings that look like this:
-
-```
-warning: no glyph name for alteration -161682773251253/232646963791656 in alteration-glyph-name-alist; try defining one in alterationGlyphs
-```
-
-These are harmless and can be ignored. Unfortunately, there doesn't seem to be a good way to silence these warnings at the moment.
-
 ## Options
 
 Options are set by assigning a value to variables, e.g.:
