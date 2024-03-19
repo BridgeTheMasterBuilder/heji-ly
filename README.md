@@ -193,6 +193,6 @@ Currently supported options:
 - `heji-ly-heji-font` = <string> - Filename of the HEJI2 font on your system, excluding the file extension. Default: `"HEJI2"`
 - `heji-ly-warn-on-empty-factors` = Whether to issue a warning when no factors are supplied to the `\ji` function. Default: `#t`
 - `heji-ly-skip-validation` - Whether to skip validation of factors. Normally, factors are checked to make sure that only prime number factors appear in the list and that the exponents do not exceed the maximum supported value. Only set to `#t` if you're generating LilyPond code and can guarantee the factors are legal and want to squeeze some extra performance. Default: `#f`
-- `heji-ly-warn-on-ill-formed-factor-string` - The factor parser is extremely lenient; it will ignore any unexpected characters and continue parsing. Set to #t if you wish to be warned about these unexpected characters.
+- `heji-ly-warn-on-ill-formed-factor-string` - The factor parser is extremely lenient; it will ignore any unexpected characters and continue parsing. Set to `#t` if you wish to be warned about these unexpected characters. Default: `#f`
 - `heji-ly-render-midi` - Set to `#t` if you want a rendered MIDI file. No need for `\midi {}` blocks, just set to `#t` and LilyPond will produce a MIDI file as well as a PDF score. Default: `#f`
 - `heji-ly-reference-pitch` - The reference pitch to use (only affects MIDI playback). Default: `5` (A)

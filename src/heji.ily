@@ -6,7 +6,7 @@
 heji-ly-heji-font = #(set-if-unset 'heji-ly-heji-font "HEJI2")
 heji-ly-warn-on-empty-factors = #(set-if-unset 'heji-ly-warn-on-empty-factors #t)
 heji-ly-skip-validation = #(set-if-unset 'heji-ly-skip-validation #f)
-heji-ly-warn-on-ill-formed-factor-string = #(set-if-unset 'heji-ly-warn-on-ill-formed-factor-string #t)
+heji-ly-warn-on-ill-formed-factor-string = #(set-if-unset 'heji-ly-warn-on-ill-formed-factor-string #f)
 heji-ly-render-midi = #(set-if-unset 'heji-ly-render-midi #f)
 heji-ly-reference-pitch = #(set-if-unset 'heji-ly-reference-pitch 5)
 
