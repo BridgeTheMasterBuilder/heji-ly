@@ -10,6 +10,7 @@
   <<
     \HejiStaff {
       \set Staff.midiInstrument = "reed organ"
+      \accidentalStyle dodecaphonic
 
       \tempo 4=40
 
@@ -22,7 +23,7 @@
         b \ji"3u5"c \ji"11"d \clef treble e
         \ji"3u13"f \ji"u7"g \ji"3u5"g a
         \ji"3u17"a b \ji"19"c \ji"3u5"c
-        \ji"u7"d \ji"o11"d \ji"3 23"d e
+        \ji"u7"d \ji"11"d \ji"3 23"d e
         \ji"3u5^2"e \ji"3u13"f \ji"3"fis \ji"u7"g
         \ji"29"g \ji"3u5"g \ji"u31"a a
         \ji"11"a \ji"3u17"a \ji"u5u7"b b
@@ -35,6 +36,7 @@
 
     \HejiStaff {
       \set Staff.midiInstrument = "church organ"
+      \accidentalStyle dodecaphonic
 
       \relative a,,, {
         \clef bass

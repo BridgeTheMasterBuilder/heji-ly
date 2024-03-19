@@ -94,6 +94,11 @@ ji =
           (accidentals #{\markup\heji-markup #factor-list #}))
      (tune-pitches note (factors-to-interval factor-list) heji-ly-reference-pitch heji-ly-render-midi)
      #{
+       % TODO Awful hack
+       #(if (string=? factors "u41")
+            #{
+              \once \override Score.AccidentalPlacement.padding = #1
+            #})
        \tweak Accidental.stencil
        #ly:text-interface::print
        \tweak Accidental.text
