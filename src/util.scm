@@ -1,5 +1,5 @@
 (define-module (util)
-  :export (set-if-unset prime-p log-b))
+  :export (set-if-unset prime-p log-b irrational->rational))
 
 (use-modules (lily))
 
@@ -18,3 +18,7 @@
 
 (define (log-b b x)
   (/ (log10 x) (log10 b)))
+
+(define (irrational->rational x)
+  (define epsilon 1/1000000000000000)
+  (rationalize (inexact->exact x) epsilon))

@@ -43,8 +43,7 @@
 ;;                many equal tempered whole tones the interval consists of, which is how LilyPond
 ;;                (and MIDI) represent pitch bends
 (define (interval-to-alteration interval)
-  (define epsilon 1/1000000000000000)
-  (rationalize (inexact->exact (log-b (expt 2 (/ 2 12)) interval)) epsilon))
+  (irrational->rational (log-b (expt 2 (/ 2 12)) interval)))
 
 ;; Precondition: note and reference-pitch are integers between 0 and 6 inclusive
 ;; Postcondition: The returned value is the number of equal tempered whole tones (see above comment)
