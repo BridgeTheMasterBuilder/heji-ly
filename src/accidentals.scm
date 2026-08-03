@@ -116,5 +116,5 @@
                          (,(hash-factor 41 -1) . #x2d)
                          (,(hash-factor 43 1) . #xe9)
                          (,(hash-factor 43 -1) . #xe8)
-                         (,(hash-factor 47 1) . #xed)
-                         (,(hash-factor 47 -1) . #xec)))
+                         (,(hash-factor 47 1) . #xee5a)
+                         (,(hash-factor 47 -1) . #xee5b)))

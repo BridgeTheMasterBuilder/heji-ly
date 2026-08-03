@@ -17,7 +17,7 @@
                     (37 . 37/36)
                     (41 . 82/81)
                     (43 . 129/128)
-                    (47 . 752/729)))
+                    (47 . 48/47)))
 
 (define diatonic-pythagorean-scale #(1/1 9/8 32/27 4/3 3/2 128/81 16/9))
 (define equal-tempered-intervals #(0 2 3 5 7 8 10))
