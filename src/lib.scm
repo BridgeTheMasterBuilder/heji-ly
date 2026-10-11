@@ -2,7 +2,7 @@
   :export (parse-heji))
 
 (add-to-load-path (dirname (current-filename)))
-(use-modules (accidentals) (util))
+(use-modules (lily) (accidentals) (util))
 
 (define (validate factor-exponent)
   (let* ((factor (car factor-exponent))
