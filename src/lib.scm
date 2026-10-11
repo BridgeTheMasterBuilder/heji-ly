@@ -2,21 +2,45 @@
   :export (parse-heji))
 
 (add-to-load-path (dirname (current-filename)))
-(use-modules (accidentals) (util))
+(use-modules (lily) (accidentals) (util))
 
 (define (validate factor-exponent)
   (let* ((factor (car factor-exponent))
          (exponent (cdr factor-exponent))
          (max-exponent (cond ((= factor 3) 2)
                              ((= factor 5) 4)
-                             ((= factor 7) 2)
-                             (else 1))))
+                             (else 3))))
     (cond
      ((= factor 0) '())
      ((not (prime-p factor))
       (ly:error (format #f "~d is not a prime factor." factor)))
      ((> (abs exponent) max-exponent)
       (ly:error (format #f "~d-limit accidentals currently only support a maximum exponent of ±~d." factor max-exponent))))))
+
+;; This function allows for the use of higher exponents for primes above 5 which require more than one symbol to represent them
+(define (check-repeat-factor factor)
+  (let* ((f (car factor))
+         (e (cdr factor)))
+    (cond
+     ((< f 7)
+      (list factor))
+     ((= f 7)
+      (cond
+       ((= e 3)
+        (list (cons 7 1) (cons 7 2)))
+       ((= e -3)
+        (list (cons 7 -1) (cons 7 -2)))
+       (else (list factor))))
+     ((= e 2)
+      (list (cons f 1) (cons f 1)))
+     ((= e 3)
+      (list (cons f 1) (cons f 1) (cons f 1)))
+     ((= e -2)
+      (list (cons f -1) (cons f -1)))
+     ((= e -3)
+      (list (cons f -1) (cons f -1) (cons f -1)))
+     (else
+      (list factor)))))
 
 ;; Precondition: Factors is a possibly empty sorted (in descending order) list of pairs (x . y)
 ;; Postconditions: The returned list is a sorted list of pairs (x . y) satisfying the following conditions:
@@ -47,8 +71,8 @@
                    (cons (cons (* 5 (prime (+ e2 2)))
                                e1)
                          (normalize-factors (cdr rest))))
-                  (else (cons this-factor (normalize-factors rest))))))
-         (else (list this-factor))))))
+                  (else (append (check-repeat-factor this-factor) (normalize-factors rest))))))
+         (else (check-repeat-factor this-factor))))))
 
 ;; Precondition: Factors is a possibly empty list of pairs (x . y)
 ;; Postcondition: The returned list is a list of code points corresponding to the accidentals described by the input list
