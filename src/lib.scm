@@ -26,8 +26,8 @@
 ;;        where prime is some prime number, see `accidentals.ily` for an explanation
 ;;      - No pair has 2 as its key
 (define (normalize-factors factors)
-  (if (nil? factors)
-      factors
+  (if (or (nil? factors) (equal? factors '((0 . 1))))
+      (if (nil? factors) factors '((3 . 0)))
       (let* ((this-factor (car factors))
              (rest (cdr factors))
              (f (car this-factor))
